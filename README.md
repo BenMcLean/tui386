@@ -113,6 +113,8 @@ Boot animation. Put the first line in `<head>` to avoid a flash of page; if the 
 
 Or as an ES module: `import { boot, magicCursor } from './src/tui386.js'`.
 
+The JavaScript is entirely optional. Leave out all three snippets above and the page simply renders normally, with no animation and no hidden-page delay (visitors with JavaScript disabled or `prefers-reduced-motion` get the same). Don't keep only the first line in `<head>` without also loading `tui386.js`, or the page stays hidden for 3 seconds before the fallback reveals it. Without `tui386.js` you also lose `menus()` (menus stay open until you click their title again) and `magicCursor()`.
+
 ## Themes
 
 Two DOS-era screens: the blue of EDIT, QBasic and Turbo Pascal (default), and gray on black like the DOS prompt. The black one follows `prefers-color-scheme: dark`. Force either with `<html data-theme="light">` or `<html data-theme="dark">` (here "light" means the blue one).

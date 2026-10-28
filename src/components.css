@@ -34,7 +34,6 @@
 		background: var(--tui386-bg);
 		color: var(--tui386-fg);
 		min-height: 100vh;
-		/* Don't let hidden-until-boot flash on slow loads */
 		margin: 0;
 	}
 

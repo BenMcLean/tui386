@@ -289,7 +289,6 @@
 		background: var(--tui386-bg);
 		color: var(--tui386-fg);
 		min-height: 100vh;
-		
 		margin: 0;
 	}
 :root[data-theme^="tui386"] h1,
