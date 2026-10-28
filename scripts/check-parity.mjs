@@ -35,6 +35,9 @@ for (const theme of ['light', 'dark']) {
 	for (const [name, file] of Object.entries(pages)) {
 		await page.goto(`${base}/${file}.html?fast`)
 		await page.waitForTimeout(500)
+		// Linux Chromium hovers whatever is under the pointer (0,0, the brand link) after navigation
+		await page.mouse.move(1199, 899)
+		await page.waitForTimeout(100)
 		// the only things that are meant to differ: which framework link is highlighted and its name
 		await page.addStyleTag({ content: '[data-switch] { visibility: hidden; }' })
 		await page.evaluate(() => document.querySelectorAll('[data-current]').forEach(e => { e.textContent = 'Framework' }))
