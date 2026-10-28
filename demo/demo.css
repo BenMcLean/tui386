@@ -1,0 +1,6 @@
+/* Shared by all four demo pages. Not part of the theme: the menu bar has the section
+	 links, the four framework links and the theme toggle, which only fit on one row when
+	 the window is wide, so the section links go first. */
+@media (max-width: 899px) {
+	.demo-section { display: none !important; }
+}

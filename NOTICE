@@ -1,0 +1,11 @@
+TUI386.css
+Copyright 2026 Benjamin McLean (modifications)
+
+Derived from BOOTSTRA.386 by kristopolous
+https://github.com/kristopolous/BOOTSTRA.386
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Bundled font: Px437 IBM EGA 8x14 by VileR
+https://int10h.org/oldschool-pc-fonts/
+Licensed under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/).
+The font is a separate work; the Apache License above does not apply to it.

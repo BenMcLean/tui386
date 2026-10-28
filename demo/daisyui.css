@@ -1,0 +1,6 @@
+/* Entry point for the daisyUI demo page only. Real users import tui386/daisyui. */
+@import "tailwindcss" source(none);
+@plugin "daisyui";
+@import "../dist/daisyui.css";
+@import "../src/tailwind.css";
+@source "../site/daisyui.html";

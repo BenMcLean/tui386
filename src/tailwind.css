@@ -1,0 +1,91 @@
+/*
+ * TUI386.css - Tailwind CSS v4 adapter.
+ *
+ *   @import "tailwindcss";
+ *   @import "tui386/tailwind";
+ *
+ * This is the only file that knows about Tailwind. It maps tokens.css onto
+ * Tailwind's theme, and nothing else. The components are plain CSS.
+ *
+ * 1 spacing unit = 8px = 1 column.  2 units = 16px = 1 row.
+ * So `mb-2` is one blank line and `px-1` is one space.
+ */
+@import "./tokens.css";
+@import "./components.css";
+
+/* `inline` so utilities resolve to the --tui386-* variables instead of copies */
+@theme inline {
+	--color-*: initial;
+	--color-black: var(--tui386-black);
+	--color-blue: var(--tui386-blue);
+	--color-green: var(--tui386-green);
+	--color-cyan: var(--tui386-cyan);
+	--color-red: var(--tui386-red);
+	--color-magenta: var(--tui386-magenta);
+	--color-brown: var(--tui386-brown);
+	--color-silver: var(--tui386-silver);
+	--color-gray: var(--tui386-gray);
+	--color-bright-blue: var(--tui386-bright-blue);
+	--color-bright-green: var(--tui386-bright-green);
+	--color-bright-cyan: var(--tui386-bright-cyan);
+	--color-bright-red: var(--tui386-bright-red);
+	--color-bright-magenta: var(--tui386-bright-magenta);
+	--color-yellow: var(--tui386-yellow);
+	--color-white: var(--tui386-white);
+
+	--font-sans: var(--tui386-font);
+	--font-serif: var(--tui386-font);
+	--font-mono: var(--tui386-font);
+
+	--shadow-*: initial;
+	--shadow-dos: var(--tui386-shadow);
+}
+
+@theme {
+	--spacing: 8px;
+
+	/* One type size, one weight. text-xl is a lie we tell for compatibility. */
+	--text-*: initial;
+	--text-xs: 16px;   --text-xs--line-height: 16px;
+	--text-sm: 16px;   --text-sm--line-height: 16px;
+	--text-base: 16px; --text-base--line-height: 16px;
+	--text-lg: 16px;   --text-lg--line-height: 16px;
+	--text-xl: 16px;   --text-xl--line-height: 16px;
+	--text-2xl: 16px;  --text-2xl--line-height: 16px;
+	--text-3xl: 16px;  --text-3xl--line-height: 16px;
+	--text-4xl: 16px;  --text-4xl--line-height: 16px;
+	--text-5xl: 16px;  --text-5xl--line-height: 16px;
+	--text-6xl: 16px;  --text-6xl--line-height: 16px;
+	--text-7xl: 16px;  --text-7xl--line-height: 16px;
+	--text-8xl: 16px;  --text-8xl--line-height: 16px;
+	--text-9xl: 16px;  --text-9xl--line-height: 16px;
+
+	--font-weight-*: initial;
+	--font-weight-normal: normal;
+	--font-weight-bold: normal;
+
+	--tracking-*: initial;
+	--leading-*: initial;
+
+	/* No curves, no blur */
+	--radius-*: initial;
+	--radius-xs: 0;  --radius-sm: 0;  --radius-md: 0;  --radius-lg: 0;
+	--radius-xl: 0;  --radius-2xl: 0; --radius-3xl: 0; --radius-4xl: 0;
+	--inset-shadow-*: initial;
+	--drop-shadow-*: initial;
+	--blur-*: initial;
+
+	/* Breakpoints measured in columns: 72, 96, 120, 144 and 168 of them */
+	--breakpoint-sm: 576px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 960px;
+	--breakpoint-xl: 1152px;
+	--breakpoint-2xl: 1344px;
+}
+
+@utility row-h { height: 16px; }
+@utility col-w { width: 8px; }
+@utility reverse { background: var(--tui386-silver); color: var(--tui386-black); }
+@utility dither { background: var(--tui386-dither); }
+@utility shadow-drop { box-shadow: var(--tui386-shadow); }
+@utility rule-double { border-top: 4px double currentColor; }

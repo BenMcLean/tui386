@@ -1,0 +1,139 @@
+/*
+ * TUI386.css - daisyUI 5 theme (Tailwind v4).
+ *
+ *   @import "tailwindcss";
+ *   @plugin "daisyui";
+ *   @import "tui386/daisyui";
+ *
+ * Makes daisyUI's own components (btn, card, alert, modal...) wear the TUI386 look: the EGA
+ * palette, the DOS font, no curves and no depth. daisyUI's theme variables are set, and
+ * TUI386's component rules are re-aimed at daisyUI's class names (see scripts/aliases.mjs),
+ * so a btn looks exactly like a tui386-btn.
+ * Add `@import "tui386/tailwind"` as well if you also want the EGA utility
+ * colors (bg-yellow, text-bright-cyan...) and the 8px spacing grid.
+ *
+ * Two themes: "tui386" (the blue screen) and "tui386-dark" (black). Nothing outside them
+ * is touched, so a site can offer TUI386 as one theme among others: set
+ * <html data-theme="tui386"> or "tui386-dark" to pick it. Neither is the default theme
+ * or follows the OS setting, because that would take the choice away from the site.
+ *
+ * daisyUI wants real color values, so these repeat the numbers from tokens.css.
+ */
+@font-face {
+	font-family: "DOS";
+	src: url("../fonts/Px437_IBM_EGA8.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+@plugin "daisyui/theme" {
+	name: "tui386";
+	color-scheme: dark;
+
+	--color-base-100: #0000aa;
+	--color-base-200: #000000;
+	--color-base-300: #555555;
+	--color-base-content: #aaaaaa;
+
+	--color-primary: #ffff55;
+	--color-primary-content: #000000;
+	--color-secondary: #aaaaaa;
+	--color-secondary-content: #000000;
+	--color-accent: #ff55ff;
+	--color-accent-content: #000000;
+	--color-neutral: #000000;
+	--color-neutral-content: #ffffff;
+
+	--color-info: #55ffff;
+	--color-info-content: #000000;
+	--color-success: #55ff55;
+	--color-success-content: #000000;
+	--color-warning: #aa5500;
+	--color-warning-content: #ffffff;
+	--color-error: #aa0000;
+	--color-error-content: #ffffff;
+
+	/* No curves, no depth, no texture */
+	--radius-selector: 0;
+	--radius-field: 0;
+	--radius-box: 0;
+	--border: 2px;
+	--depth: 0;
+	--noise: 0;
+}
+
+@plugin "daisyui/theme" {
+	name: "tui386-dark";
+	color-scheme: dark;
+
+	--color-base-100: #000000;
+	--color-base-200: #0000aa;
+	--color-base-300: #555555;
+	--color-base-content: #aaaaaa;
+
+	--color-primary: #ffff55;
+	--color-primary-content: #000000;
+	--color-secondary: #aaaaaa;
+	--color-secondary-content: #000000;
+	--color-accent: #ff55ff;
+	--color-accent-content: #000000;
+	--color-neutral: #000000;
+	--color-neutral-content: #ffffff;
+
+	--color-info: #55ffff;
+	--color-info-content: #000000;
+	--color-success: #55ff55;
+	--color-success-content: #000000;
+	--color-warning: #aa5500;
+	--color-warning-content: #ffffff;
+	--color-error: #aa0000;
+	--color-error-content: #ffffff;
+
+	/* No curves, no depth, no texture */
+	--radius-selector: 0;
+	--radius-field: 0;
+	--radius-box: 0;
+	--border: 2px;
+	--depth: 0;
+	--noise: 0;
+}
+
+@layer utilities.tui386 {
+	:root[data-theme^="tui386"] {
+		font-family: "DOS", Monaco, Menlo, Consolas, "Courier New", monospace;
+		font-size: 16px;
+		line-height: 16px;
+		font-synthesis: none;
+		font-kerning: none;
+		font-variant-ligatures: none;
+		-webkit-font-smoothing: none;
+		text-rendering: optimizeSpeed;
+	}
+
+	/* daisyUI sets scrollbar-color on <html> from the text color, which changes with the theme,
+		 and Chromium then ignores the ::-webkit-scrollbar rules that draw TUI386's. So put the
+		 scrollbar back to automatic where those rules work; Firefox only has the standard
+		 properties, so it gets TUI386's colors there. daisyUI also reserves a gutter. */
+	@supports selector(::-webkit-scrollbar) {
+		:root[data-theme^="tui386"] {
+			scrollbar-color: auto;
+			scrollbar-gutter: auto;
+		}
+	}
+	@supports not selector(::-webkit-scrollbar) {
+		:root[data-theme^="tui386"] {
+			scrollbar-color: var(--tui386-black) var(--tui386-silver);
+			scrollbar-width: auto;
+			scrollbar-gutter: auto;
+		}
+	}
+
+	/* daisyUI draws checkboxes and radios with its own pseudo-elements, borders and
+		 shadows; the TUI386 rules draw [x] and (o) instead, so strip all of that first */
+	:root[data-theme^="tui386"] :is(.checkbox, .radio),
+	:root[data-theme^="tui386"] :is(.checkbox, .radio)::before,
+	:root[data-theme^="tui386"] :is(.checkbox, .radio)::after {
+		all: unset;
+	}
+}

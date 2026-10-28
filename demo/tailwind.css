@@ -1,0 +1,4 @@
+/* Entry point for the Tailwind demo page only. Real users import tui386/tailwind. */
+@import "tailwindcss" source(none);
+@import "../src/tailwind.css";
+@source "./index.html";

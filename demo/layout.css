@@ -1,0 +1,33 @@
+/*
+ * Page layout for the Bootstrap demo only. Bootstrap has no grid or gap utilities and its
+ * spacing scale is not 8px, so the few layout helpers the demo page uses live here (a real
+ * site has its own layout CSS). Nothing in this file is about the theme.
+ */
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: minmax(0, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.gap-x-1 { column-gap: 8px; }
+.gap-x-4 { column-gap: 32px; }
+.items-start { align-items: start; }
+.max-w-\[1152px\] { max-width: 1152px; }
+@media (min-width: 768px) {
+	.md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.md\:grid-cols-8 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+}
+.block { display: block; }
+.text-silver { color: var(--tui386-silver); }
+.bg-blue { background: var(--tui386-blue); }
+.bg-green { background: var(--tui386-green); }
+.bg-cyan { background: var(--tui386-cyan); }
+.bg-red { background: var(--tui386-red); }
+.bg-magenta { background: var(--tui386-magenta); }
+.bg-brown { background: var(--tui386-brown); }
+.bg-silver { background: var(--tui386-silver); }
+.bg-gray { background: var(--tui386-gray); }
+.bg-bright-blue { background: var(--tui386-bright-blue); }
+.bg-bright-green { background: var(--tui386-bright-green); }
+.bg-bright-cyan { background: var(--tui386-bright-cyan); }
+.bg-bright-red { background: var(--tui386-bright-red); }
+.bg-bright-magenta { background: var(--tui386-bright-magenta); }
+.bg-yellow { background: var(--tui386-yellow); }

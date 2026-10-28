@@ -1,0 +1,5 @@
+// Entry point for the Bootstrap demo page only (light screen). See bootstrap-dark.scss.
+@import "bootstrap/scss/functions";
+$tui386-font-path: "../fonts";
+@import "../src/bootstrap";
+@import "bootstrap/scss/bootstrap";
