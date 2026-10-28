@@ -1,7 +1,25 @@
-# TUI386.css
+# TUI386.CSS
+
+[![npm](https://img.shields.io/npm/v/tui386)](https://www.npmjs.com/package/tui386)
 
 Make your webpages look like they're from the gentler, less distracting time of the 1980s.
 The successor to [BOOTSTRA.386](https://github.com/kristopolous/BOOTSTRA.386), built to survive dependency bumps.
+
+## Why This Exists
+
+[BOOTSTRA.386](https://github.com/kristopolous/BOOTSTRA.386) was the primary inspiration but it has to be redone for every new Bootstrap version. Impressive, but unmaintainable.
+
+[TuiCss](https://github.com/vinibiavatti1/TuiCss) is nice and might have worked for what I needed, but it comes with its own class names, so a site built on it is stuck with it.
+
+Here's how TUI386.CSS is different:
+- Build your site on Tailwind, UnoCSS, daisyUI or Bootstrap, or on your own CSS and add TUI386 for the look. The look lives in plain CSS and thin adapters make every framework appear [the exact same](https://homestar.wiki/wiki/The_Exact_Same).
+- A dependency upgrade should, in theory, be only a version bump.
+- Every TUI386 class is prefixed `tui386-`, so it won't collide with your own CSS.
+- If the madness subsides and you want to adopt a look more in keeping with the third millennium then it should be easy to swap out for another theme.
+
+## Demo
+
+https://benmclean.github.io/tui386/ is the same page built four times, once per framework (Tailwind, UnoCSS, daisyUI, Bootstrap). Switch between them from the menu bar; the screen should not change. The Tailwind and UnoCSS pages share their markup. The daisyUI and Bootstrap pages are generated from it by swapping each `tui386-*` class for that framework's own (`tui386-btn` becomes `btn`), so they test that the adapters' overrides really do turn the framework's components into TUI386's. `npm run check:parity` compares them pixel by pixel, and a difference beyond its limit is a bug in an adapter.
 
 ## Design
 
@@ -16,7 +34,7 @@ The successor to [BOOTSTRA.386](https://github.com/kristopolous/BOOTSTRA.386), b
 | `src/tui386.js` | optional boot animation and grid-snapping cursor | nothing |
 
 Every component class is prefixed `tui386-`, so it can sit next to Bootstrap, DaisyUI or your own CSS without colliding. Only the adapters know about a framework. The components are plain CSS, so a Tailwind major
-release touches one small file.
+release touches only the adapters.
 
 ## Use it
 
@@ -47,7 +65,7 @@ export default defineConfig({
 })
 ```
 
-Turn off wind4's reset (`reset: false`). It is not in a CSS layer, so it would flatten the padding and borders on TUI386's components. Load `tui386/dist/tui386.css` once for the components. Same palette and spacing as the Tailwind adapter.
+Turn off wind4's reset (`reset: false`). It is not in a CSS layer, so it would flatten the padding and borders on TUI386's components. Load `tui386` (its `dist/tui386.css`) once for the components. Same palette and spacing as the Tailwind adapter.
 
 daisyUI 5 (Tailwind v4):
 
@@ -109,10 +127,6 @@ The themes only differ in four tokens, so everything else is the same EGA colors
 | `--tui386-fg` | silver | silver |
 
 Override any of them to make your own screen. daisyUI gets two themes, `tui386` and `tui386-dark`. Bootstrap picks one per build by importing `bootstrap` or `bootstrap-dark`, and its overlay follows `data-theme="tui386"` or `"tui386-dark"`. Tailwind and UnoCSS need nothing extra: the components follow the tokens.
-
-## Demo
-
-https://benmclean.github.io/tui386/ is the same page built four times, once per framework (Tailwind, UnoCSS, daisyUI, Bootstrap). Switch between them from the menu bar; the screen should not change. The Tailwind and UnoCSS pages share their markup. The daisyUI and Bootstrap pages are generated from it by swapping each `tui386-*` class for that framework's own (`tui386-btn` becomes `btn`), so they test that the adapters' overrides really do turn the framework's components into TUI386's. They match to within a fraction of a percent of pixels; a larger difference is a bug in an adapter.
 
 ## Develop
 
