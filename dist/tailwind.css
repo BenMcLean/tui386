@@ -1,0 +1,1230 @@
+/*
+ * TUI386.css - design tokens. Plain CSS custom properties; this file is the
+ * single source of truth for the look. Every adapter just maps these.
+ *
+ * The screen is a grid of 8px x 16px character cells (IBM EGA 8x14 font drawn
+ * at 16px). One column is 8px, one row is 16px.
+ */
+@font-face {
+	font-family: "DOS";
+	src: url("data:font/otf;base64,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+bT64AUcBeEPHAAAEBwIIhEcABkcKhASAI4CAAEACAAPABYAHQAkACsAMgA5AEAARwBOAFUAXABjAGoAcQB4AH8AhgCNAJQAmwCiAKkAsAC3AL4AxQDMANMA2gDhAOgA7wD2APsBAAEFAQgBDwEUARkBIAEiAScBKgEtATYBPQFDAUwBUwFdAWYBbwF4AYQBiwGSAZoBpAGwAbsBxgHPAdsB4AHtAfcCAQIJAhECGQIhAikCMQI5AkECSQJRAlkCYQJpAnECeQKBAokCkQKZAqECqQKxArkCwQLJAtEC2QLhAukC8QL5AwEDCQMRAxkDIQMpAzEDOQNBA0gDTwNUA1sDYgNpA24DdQN+A4gDjwOWA50DpAOqA7MDvAPFA9ED1APaA94D4wPnA+wD8wP+BAwEGAQ/BE0EW3VuaTAwMDB1bmkwMDAxdW5pMDAwMnVuaTAwMDN1bmkwMDA0dW5pMDAwNXVuaTAwMDZ1bmkwMDA3dW5pMDAwOHVuaTAwMDl1bmkwMDBBdW5pMDAwQnVuaTAwMEN1bmkwMDBEdW5pMDAwRXVuaTAwMEZ1bmkwMDEwdW5pMDAxMXVuaTAwMTJ1bmkwMDEzdW5pMDAxNHVuaTAwMTV1bmkwMDE2dW5pMDAxN3VuaTAwMTh1bmkwMDE5dW5pMDAxQXVuaTAwMUJ1bmkwMDFDdW5pMDAxRHVuaTAwMUV1bmkwMDFGdW5pMDA3RnVuaTAwQTB1bmkwMEIyR2FtbWFUaGV0YVNpZ21hUGhpdW5pMDNBOWFscGhhZGVsdGFlcHNpbG9ucGlzaWdtYXRhdXBoaWV4Y2xhbWRibHVuaTIwN0ZwZXNldGFhcnJvd2xlZnRhcnJvd3VwYXJyb3dyaWdodGFycm93ZG93bmFycm93Ym90aGFycm93dXBkbmFycm93dXBkbmJzZXVuaTIyMTlyYWRpY2FsaW5maW5pdHlvcnRob2dvbmFsaW50ZXJzZWN0aW9uYXBwcm94ZXF1YWxlcXVpdmFsZW5jZWxlc3NlcXVhbGdyZWF0ZXJlcXVhbGhvdXNlcmV2bG9naWNhbG5vdGludGVncmFsdHBpbnRlZ3JhbGJ0U0YxMDAwMDBTRjExMDAwMFNGMDEwMDAwU0YwMzAwMDBTRjAyMDAwMFNGMDQwMDAwU0YwODAwMDBTRjA5MDAwMFNGMDYwMDAwU0YwNzAwMDBTRjA1MDAwMFNGNDMwMDAwU0YyNDAwMDBTRjUxMDAwMFNGNTIwMDAwU0YzOTAwMDBTRjIyMDAwMFNGMjEwMDAwU0YyNTAwMDBTRjUwMDAwMFNGNDkwMDAwU0YzODAwMDBTRjI4MDAwMFNGMjcwMDAwU0YyNjAwMDBTRjM2MDAwMFNGMzcwMDAwU0Y0MjAwMDBTRjE5MDAwMFNGMjAwMDAwU0YyMzAwMDBTRjQ3MDAwMFNGNDgwMDAwU0Y0MTAwMDBTRjQ1MDAwMFNGNDYwMDAwU0Y0MDAwMDBTRjU0MDAwMFNGNTMwMDAwU0Y0NDAwMDB1cGJsb2NrZG5ibG9ja2Jsb2NrbGZibG9ja3J0YmxvY2tsdHNoYWRlc2hhZGVka3NoYWRlZmlsbGVkYm94ZmlsbGVkcmVjdHRyaWFndXB0cmlhZ3J0dHJpYWdkbnRyaWFnbGZjaXJjbGVpbnZidWxsZXRpbnZjaXJjbGVzbWlsZWZhY2VpbnZzbWlsZWZhY2VzdW5mZW1hbGVtYWxlc3BhZGVjbHViaGVhcnRkaWFtb25kbXVzaWNhbG5vdGVtdXNpY2Fsbm90ZWRibHYxLjAtMjAxNS0xMU91dGxpbmUgKHZlY3RvcikgdmVyc2lvbiAoYykgMjAxNSBWaWxlUlB4NDM3IElCTSBFR0E4UHg0MzcgSUJNIEVHQTgAAAABhwGIAYkBigGLAYwBjQGOAY8BkAGRAZIBkwGUAZUBlgGXAZgBmQGaAZsBnAGdAZ4BnwGgAaEBogGjAaQBpQGmAAEAAgADAAQABQAGAAcAaAAJAAoACwAMAA0ADgAPABAAEQASABMAFAAVABYAFwAYABkAGgAbABwAHQAeAB8AIAAhACIAIwAkACUAJgAnACgAKQAqACsALAAtAC4ALwAwADEAMgAzADQANQA2ADcAOAA5ADoAOwA8AD0APgA/AEAAfABCAEMARABFAEYARwBIAEkASgBLAEwATQBOAE8AUABRAFIAUwBUAFUAVgBXAFgAWQBaAFsAXABdAF4AXwGnAagAYABhAGIAZABmAIsAagCXAKEAnAGpAJgAcwByAI8AeACeAJsAewCtAK8AigCxALIAugC9AMMAlQDLAMgAyQDKAMwAkADOANIAzwDQANEA1gDTANQA1QDXANsA2ADZANoAnwDhAN4A3wDgAOMAZQGq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") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+:root {
+	/* The sixteen EGA colors */
+	--tui386-black: #000000;
+	--tui386-blue: #0000aa;
+	--tui386-green: #00aa00;
+	--tui386-cyan: #00aaaa;
+	--tui386-red: #aa0000;
+	--tui386-magenta: #aa00aa;
+	--tui386-brown: #aa5500;
+	--tui386-silver: #aaaaaa;
+	--tui386-gray: #555555;
+	--tui386-bright-blue: #5555ff;
+	--tui386-bright-green: #55ff55;
+	--tui386-bright-cyan: #55ffff;
+	--tui386-bright-red: #ff5555;
+	--tui386-bright-magenta: #ff55ff;
+	--tui386-yellow: #ffff55;
+	--tui386-white: #ffffff;
+
+	--tui386-font: "DOS", Monaco, Menlo, Consolas, "Courier New", monospace;
+
+	--tui386-cell-w: 8px;
+	--tui386-cell-h: 16px;
+
+	/* Theme tokens: the few places where the blue and the black screens differ.
+		 Everything else is the same EGA colors in both. This is the blue screen
+		 (DOS EDIT, QBasic, Turbo Pascal), the default. */
+	--tui386-bg: var(--tui386-blue);            /* the screen and the windows on it */
+	--tui386-fg: var(--tui386-silver);          /* body text */
+	--tui386-inset: var(--tui386-black);        /* code, pre, wells, table stripes */
+	--tui386-shadow-color: var(--tui386-black);
+
+	/* The only shadow: hard, one column over and one half-row down */
+	--tui386-shadow: 8px 8px 0 0 var(--tui386-shadow-color);
+
+	/* A checkerboard standing in for 50% shade (scrollbars, progress, .shade) */
+	--tui386-dither: repeating-conic-gradient(var(--tui386-silver) 0% 25%, var(--tui386-gray) 0% 50%) 0 0 / 2px 2px;
+}
+
+/*
+ * The black screen (the DOS prompt, Norton-style gray-on-black). It follows the
+ * OS setting unless the page says data-theme="light"; data-theme="dark" forces it.
+ * (tui386 and tui386-dark are the same two screens under daisyUI's theme names.)
+ * A black shadow would vanish on black, so it turns gray.
+ */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"], [data-theme="tui386"]) {
+		--tui386-bg: var(--tui386-black);
+		--tui386-inset: var(--tui386-blue);
+		--tui386-shadow-color: var(--tui386-gray);
+	}
+}
+:root:is([data-theme="dark"], [data-theme="tui386-dark"]) {
+	--tui386-bg: var(--tui386-black);
+	--tui386-inset: var(--tui386-blue);
+	--tui386-shadow-color: var(--tui386-gray);
+}
+
+/*
+ * TUI386.css - components. Plain CSS: no framework required.
+ * Everything is driven by the --tui386-* variables in tokens.css.
+ */
+/* ------------------------------------------------------------------ *
+ * Base: the screen, the text and the stuff browsers draw by default
+ * ------------------------------------------------------------------ */
+
+@layer base {
+	html {
+		font-family: var(--tui386-font);
+		font-size: 16px;
+		line-height: 16px;
+		font-synthesis: none;
+		font-kerning: none;
+		font-variant-ligatures: none;
+		-webkit-font-smoothing: none;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeSpeed;
+		background: var(--tui386-bg);
+		color-scheme: dark;
+	}
+
+	/* Chromium ignores ::-webkit-scrollbar once scrollbar-color/width are set,
+		 so only Firefox (no ::-webkit-scrollbar) gets the standard properties. */
+	@supports not selector(::-webkit-scrollbar) {
+		html {
+			scrollbar-color: var(--tui386-black) var(--tui386-silver);
+			scrollbar-width: auto;
+		}
+	}
+
+	body {
+		background: var(--tui386-bg);
+		color: var(--tui386-fg);
+		min-height: 100vh;
+		/* Don't let hidden-until-boot flash on slow loads */
+		margin: 0;
+	}
+
+	/* Text-mode has no concept of anything but one font at one size. */
+	h1, h2, h3, h4, h5, h6 {
+		color: var(--tui386-white);
+		font-size: 16px;
+		font-weight: normal;
+		margin: 0 0 16px;
+	}
+
+	/* The few resets the components lean on, so they look the same with or without a
+		 framework's own reset (Tailwind's preflight does all of these; UnoCSS's is off) */
+	*, ::before, ::after {
+		box-sizing: border-box;
+	}
+	button, input, select, optgroup, textarea {
+		font: inherit;
+	}
+	ul, ol {
+		list-style: none;
+	}
+	blockquote, figure, dd {
+		margin-inline: 0;
+	}
+
+	p, ul, ol, dl, pre, blockquote, table, figure, form, fieldset {
+		margin-top: 0;
+		margin-bottom: 16px;
+	}
+
+	ul, ol {
+		padding-left: 24px;
+	}
+
+	a {
+		color: var(--tui386-yellow);
+		text-decoration: none;
+	}
+	a:hover,
+	a:focus-visible {
+		background: var(--tui386-yellow);
+		color: var(--tui386-bg);
+	}
+
+	b, strong, th {
+		font-weight: normal;
+		color: var(--tui386-white);
+	}
+	em, i, cite, dfn, var {
+		font-style: normal;
+		color: var(--tui386-bright-cyan);
+	}
+	small {
+		font-size: inherit;
+	}
+	abbr[title] {
+		text-decoration: none;
+		border-bottom: 2px dotted currentColor;
+	}
+
+	hr {
+		border: 0;
+		border-top: 4px double var(--tui386-silver);
+		height: 0;
+		margin: 6px 0;
+		color: inherit;
+		opacity: 1;
+	}
+
+	blockquote {
+		padding-left: 16px;
+		border-left: 8px double var(--tui386-silver);
+		color: var(--tui386-bright-cyan);
+	}
+
+	code, kbd, samp, pre {
+		font-family: var(--tui386-font);
+		font-size: 16px;
+	}
+	code, samp {
+		background: var(--tui386-inset);
+		color: var(--tui386-bright-green);
+		padding: 0 8px;
+	}
+	kbd {
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		padding: 0 8px;
+		box-shadow: var(--tui386-shadow);
+		margin-right: 8px;
+	}
+	pre {
+		background: var(--tui386-inset);
+		color: var(--tui386-silver);
+		padding: 16px;
+		overflow-x: auto;
+	}
+	pre code {
+		background: none;
+		padding: 0;
+		color: inherit;
+	}
+
+	mark {
+		padding: 0;
+		background: var(--tui386-yellow);
+		color: var(--tui386-black);
+	}
+
+	::selection {
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+
+	:focus-visible {
+		outline: 2px dashed var(--tui386-yellow);
+		outline-offset: 0;
+	}
+
+	img, svg, video, canvas {
+		image-rendering: pixelated;
+	}
+
+	/* legends get ## fences, like a text-mode section header */
+	legend {
+		color: var(--tui386-white);
+		padding: 0;
+		width: 100%;
+		margin-bottom: 16px;
+	}
+	legend::before { content: "## "; }
+	legend::after  { content: " ##"; }
+	fieldset {
+		border: 0;
+		padding: 0;
+		margin-left: 0;
+		margin-right: 0;
+		min-width: 0;
+	}
+
+	/* --- scrollbars: one column wide, dithered track, black thumb --- */
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 16px;
+		background: var(--tui386-black);
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--tui386-black);
+		border-left: 2px solid var(--tui386-silver);
+		border-right: 2px solid var(--tui386-silver);
+	}
+	::-webkit-scrollbar-track {
+		background: var(--tui386-dither);
+	}
+	::-webkit-scrollbar-corner {
+		background: var(--tui386-silver);
+	}
+	::-webkit-scrollbar-button {
+		display: block;
+		height: 16px;
+		background-color: var(--tui386-silver);
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	::-webkit-scrollbar-button:vertical:start:decrement {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 5h2v2H3zM2 7h4v2H2zM1 9h6v2H1z'/%3E%3C/svg%3E");
+	}
+	::-webkit-scrollbar-button:vertical:end:increment {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M1 5h6v2H1zM2 7h4v2H2zM3 9h2v2H3z'/%3E%3C/svg%3E");
+	}
+	/* Chromium makes all four buttons; keep up at the top and down at the bottom */
+	::-webkit-scrollbar-button:vertical:start:increment,
+	::-webkit-scrollbar-button:vertical:end:decrement,
+	::-webkit-scrollbar-button:horizontal { display: none; }
+
+	/* Hide the page until the boot animation has taken over (see tui386.js).
+		 The class is only set by script, so no-JS visitors still see everything. */
+	/* If the script never runs (blocked, errored, offline) the page reveals itself
+		 after 3s instead of staying blank forever. */
+	html.tui386-boot body {
+		visibility: hidden;
+		animation: tui386-unhide 0s 3s forwards;
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * Components. Plain classes, so you can still `class="btn mb-2"` and
+ * let utilities (declared later, in the utilities layer) win.
+ * ------------------------------------------------------------------ */
+
+@layer components {
+	/* ---------- Buttons: < Like This > ----------
+		 The element's box is FIXED and two rows tall: the face, then a row for the
+		 shadow. The face and shadow are painted into it as backgrounds, and
+		 pressing just repaints the face down and right. Nothing moves, so the
+		 thing you pressed is still under your pointer when you let go, and the
+		 click lands. */
+	.tui386-btn {
+		--btn-bg: var(--tui386-silver);
+		--btn-fg: var(--tui386-black);
+		--btn-shadow: var(--tui386-shadow-color);
+		--dx: 0px;   /* how far the face is pressed in */
+		--dy: 0px;
+		display: inline-block;
+		/* The box is two whole rows (32px): the 16px face, then a row holding the
+			 shadow. Like the half-block character that drew it in text mode, the
+			 shadow fills only the top 8px of that row; the other 8px is a spacer. */
+		padding: calc(0px + var(--dy)) calc(16px - var(--dx)) calc(16px - var(--dy)) calc(8px + var(--dx));
+		margin: 0;
+		/* the spacer row is layout only: it isn't painted and can't be clicked */
+		clip-path: inset(0 0 8px 0);
+		color: var(--btn-fg);
+		border: 0;
+		font: inherit;
+		text-align: center;
+		vertical-align: top;
+		cursor: default;
+		user-select: none;
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-image:
+			linear-gradient(var(--btn-bg), var(--btn-bg)),
+			linear-gradient(var(--btn-shadow), var(--btn-shadow)),
+			linear-gradient(var(--btn-shadow), var(--btn-shadow));
+		background-size:
+			calc(100% - 8px) calc(100% - 16px),   /* face */
+			8px calc(100% - 16px),                /* shadow, right of the face */
+			calc(100% - 8px) 8px;                 /* shadow, under the face */
+		background-position:
+			var(--dx) var(--dy),
+			right top 8px,
+			right bottom 8px;
+	}
+	.tui386-btn::before { content: "< "; }
+	.tui386-btn::after  { content: " >"; }
+	.tui386-btn:hover,
+	.tui386-btn:focus-visible {
+		--btn-bg: var(--tui386-gray);
+		color: var(--tui386-white);
+		outline: 0;
+	}
+	.tui386-btn:active,
+	.tui386-btn.active {
+		--dx: 8px;
+		--dy: 8px;
+		--btn-shadow: transparent;
+	}
+	.tui386-btn:disabled,
+	.tui386-btn.disabled {
+		--btn-bg: var(--tui386-gray);
+		--btn-shadow: transparent;
+		--dx: 0px;
+		--dy: 0px;
+		opacity: 1;
+		color: var(--tui386-silver);
+		pointer-events: none;
+	}
+	.tui386-btn-primary { --btn-bg: var(--tui386-yellow);        --btn-fg: var(--tui386-black); }
+	.tui386-btn-success { --btn-bg: var(--tui386-bright-green);  --btn-fg: var(--tui386-black); }
+	.tui386-btn-info    { --btn-bg: var(--tui386-bright-cyan);   --btn-fg: var(--tui386-black); }
+	.tui386-btn-warning { --btn-bg: var(--tui386-brown);         --btn-fg: var(--tui386-white); }
+	.tui386-btn-danger  { --btn-bg: var(--tui386-red);           --btn-fg: var(--tui386-white); }
+	.tui386-btn-lg      { padding-top: calc(16px + var(--dy)); padding-bottom: calc(32px - var(--dy)); }
+	.tui386-btn-block   { display: block; width: 100%; }
+	.tui386-btn-bare::before,
+	.tui386-btn-bare::after { content: ""; }
+
+	/* ---------- Form controls: gray slabs, black ink ---------- */
+	.tui386-input,
+	.tui386-select,
+	.tui386-textarea {
+		display: inline-block;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		border: 0;
+		border-radius: 0;
+		padding: 0 8px;
+		margin: 0 0 16px;
+		font: inherit;
+		line-height: 16px;
+		height: 16px;
+		width: 240px;
+		max-width: 100%;
+		vertical-align: top;
+		caret-color: var(--tui386-black);
+	}
+	.tui386-input::placeholder,
+	.tui386-textarea::placeholder {
+		color: var(--tui386-gray);
+		opacity: 1;
+	}
+	/* a select keeps its focus after you pick something, so only text fields turn
+		 white (you are typing in them); a select shows the dashed focus outline */
+	.tui386-input:focus,
+	.tui386-textarea:focus {
+		outline: 0;
+		background: var(--tui386-white);
+	}
+	.tui386-input:disabled,
+	.tui386-select:disabled,
+	.tui386-textarea:disabled {
+		background: var(--tui386-gray);
+		color: var(--tui386-silver);
+	}
+	.tui386-textarea {
+		height: auto;
+		padding: 0 8px;
+		resize: none;
+		display: block;
+	}
+	.tui386-select {
+		appearance: none;
+		padding-right: 24px;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M0 5h8v2H0zM1 7h6v2H1zM2 9h4v2H2zM3 11h2v2H3z'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 8px center;
+	}
+	@supports (appearance: base-select) {
+		.tui386-select,
+		.tui386-select::picker(select) {
+			appearance: base-select;
+		}
+		.tui386-select {
+			min-height: 16px;
+			height: 16px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 8px;
+			background-image: none;
+		}
+		.tui386-select::picker-icon {
+			display: inline;
+			content: "\25BC";
+			color: var(--tui386-black);
+			margin-left: 8px;
+			transition: none;
+		}
+		/* the open list is a plain silver block under the field; its rows are one
+			 grid row (16px) tall and its text lines up with the field's text */
+		.tui386-select::picker(select) {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			box-shadow: none;
+			font: inherit;
+			line-height: 16px;
+			color: var(--tui386-black);
+			background: var(--tui386-silver);
+		}
+		.tui386-select option {
+			display: block;
+			box-sizing: border-box;
+			height: 16px;
+			min-height: 0;
+			margin: 0;
+			padding: 0 8px;
+			line-height: 16px;
+			color: var(--tui386-black);
+			background: none;
+		}
+		.tui386-select option::checkmark { display: none; }
+		.tui386-select option:checked { background: var(--tui386-cyan); color: var(--tui386-white); }
+		.tui386-select option:hover,
+		.tui386-select option:focus-visible { background: var(--tui386-black); color: var(--tui386-silver); outline: 0; }
+	}
+	.tui386-field-label {
+		display: block;
+		color: var(--tui386-white);
+	}
+	.tui386-field-help {
+		display: block;
+		color: var(--tui386-bright-cyan);
+	}
+	.tui386-is-invalid { background: var(--tui386-bright-red); }
+
+	/* Checkboxes and radios become [x] and (*) */
+	.tui386-check,
+	.tui386-radio {
+		appearance: none;
+		display: inline-block;
+		width: 24px;
+		height: 16px;
+		margin: 0 8px 0 0;
+		padding: 0;
+		vertical-align: top;
+		background: none;
+		border: 0;
+		color: var(--tui386-silver);
+		font: inherit;
+		line-height: 16px;
+		opacity: 1;
+	}
+	.tui386-check::before { content: "[ ]"; }
+	.tui386-check:checked::before { content: "[x]"; color: var(--tui386-white); }
+	.tui386-radio::before { content: "( )"; }
+	.tui386-radio:checked::before { content: "(\2022)"; color: var(--tui386-white); }
+	.tui386-check:focus-visible,
+	.tui386-radio:focus-visible { outline: 2px dashed var(--tui386-yellow); }
+	.tui386-check:disabled,
+	.tui386-radio:disabled { color: var(--tui386-gray); opacity: 1; }
+
+	/* A bare range is a row of dither with a block thumb */
+	.tui386-range {
+		appearance: none;
+		display: block;
+		width: 100%;
+		height: 16px;
+		margin: 0 0 16px;
+		background: var(--tui386-dither);
+		overflow: visible;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+	}
+	/* spelled out so another framework's range track and thumb can't leak through */
+	.tui386-range::-webkit-slider-runnable-track {
+		height: 16px;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+	.tui386-range::-moz-range-track {
+		height: 16px;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+	.tui386-range::-webkit-slider-thumb {
+		appearance: none;
+		position: static;
+		width: 16px;
+		height: 16px;
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		translate: none;
+		transform: none;
+		box-shadow: none;
+		background: var(--tui386-white);
+	}
+	.tui386-range::-moz-range-thumb {
+		width: 16px;
+		height: 16px;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		background: var(--tui386-white);
+	}
+
+	/* ---------- Windows (Bootstrap's hero-unit / card / panel) ----------
+		 A window is a 4px DOUBLE white line around the page, with no shadow. Its
+		 title sits ON the top line, as in a text-mode TUI: one row tall, left-aligned on
+		 the border, with the window's own background cutting a gap in the line. */
+	.tui386-window {
+		--window-bg: var(--tui386-bg);
+		position: relative;
+		display: flow-root;
+		/* Every row of text is on the 16px grid, so the top and bottom lines each get
+			 a whole row too, with the line where the glyphs' middle is (3px above the
+			 middle of the cell). The box is drawn 3px low to put them there; padding and
+			 margin make up the difference, so the text and what follows stay on the grid. */
+		margin: 0 0 28px;
+		/* sides: the 4px line, then 8px of air (a column) before the text */
+		padding: 9px 8px 3px;
+		translate: 0 3px;
+		background: var(--window-bg);
+		color: var(--tui386-fg);
+		border: 4px double var(--tui386-white);
+		/* a ring of background color keeps neighbours a line away */
+		box-shadow: 0 0 0 4px var(--window-bg);
+	}
+	.tui386-window-title {
+		/* This is the window's top row, on the grid: the box is drawn 3px low (see
+			 .tui386-window), so -7px from the padding edge is exactly the row top, and
+			 the double line runs through the middle of the glyphs. */
+		position: absolute;
+		top: -7px;
+		/* one column right of the content: the box starts 8px in from the line's inside
+			 edge and its 8px of padding puts the title text 8px past the content text */
+		left: 8px;
+		box-sizing: border-box;
+		width: max-content;
+		max-width: calc(100% - 16px);
+		margin: 0;
+		/* these are usually h1-h3; don't depend on a reset to flatten the browser's heading size */
+		font-size: inherit;
+		font-weight: inherit;
+		padding: 0 8px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		background: var(--window-bg);
+		color: var(--tui386-white);
+	}
+	.tui386-window-cyan {
+		--window-bg: var(--tui386-cyan);
+		color: var(--tui386-white);
+	}
+	.tui386-window-gray {
+		--window-bg: var(--tui386-silver);
+		color: var(--tui386-black);
+		border-color: var(--tui386-black);
+	}
+	.tui386-window-gray .tui386-window-title,
+	.tui386-window-gray h1, .tui386-window-gray h2, .tui386-window-gray h3 { color: var(--tui386-black); }
+	.tui386-window-gray a { color: var(--tui386-blue); }
+	.tui386-window-gray a:hover { background: var(--tui386-blue); color: var(--tui386-silver); }
+
+	/* banner: the solid cyan section header (Bootstrap's page-header) */
+	.tui386-banner {
+		margin: 0 0 16px;
+		padding: 16px;
+		background: var(--tui386-cyan);
+		color: var(--tui386-black);
+		text-transform: uppercase;
+	}
+	.tui386-banner h1, .tui386-banner h2, .tui386-banner h3 { color: inherit; margin: 0; }
+
+	/* ---------- Navbar: a gray bar across the top, red first letters ---------- */
+	.tui386-navbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		margin-bottom: 16px;
+	}
+	.tui386-navbar-brand {
+		padding: 0 8px;
+		margin-right: 8px;
+		background: var(--tui386-black);
+		color: var(--tui386-white);
+	}
+	.tui386-navbar a,
+	.tui386-nav-link {
+		display: block;
+		padding: 0 8px;
+		color: var(--tui386-black);
+	}
+	.tui386-navbar a::first-letter,
+	.tui386-nav-link::first-letter {
+		color: var(--tui386-red);
+	}
+	.tui386-navbar a:hover,
+	.tui386-navbar a:focus-visible,
+	.tui386-nav-link:hover,
+	.tui386-nav-link:focus-visible {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+	.tui386-navbar a.active,
+	.tui386-nav-link.active {
+		background: var(--tui386-blue);
+		color: var(--tui386-white);
+	}
+	.tui386-navbar a.tui386-navbar-brand { background: var(--tui386-black); color: var(--tui386-white); }
+	.tui386-navbar a.tui386-navbar-brand::first-letter { color: inherit; }
+	.tui386-navbar a.tui386-navbar-brand:hover { background: var(--tui386-white); color: var(--tui386-black); }
+
+	/* ---------- Tabs & pills ---------- */
+	.tui386-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 16px;
+		padding: 0;
+		list-style: none;
+		background: var(--tui386-silver);
+	}
+	.tui386-tab {
+		display: block;
+		padding: 0 8px;
+		color: var(--tui386-black);
+		text-decoration: none;
+	}
+	.tui386-tab:hover,
+	.tui386-tab:focus-visible {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+	.tui386-tab.active,
+	[aria-selected="true"].tui386-tab {
+		background: var(--tui386-blue);
+		color: var(--tui386-white);
+	}
+	.tui386-pill {
+		display: inline-block;
+		padding: 0 8px;
+		margin-right: 8px;
+		color: var(--tui386-yellow);
+	}
+	.tui386-pill:hover { background: var(--tui386-yellow); color: var(--tui386-bg); }
+	.tui386-pill.active { background: var(--tui386-yellow); color: var(--tui386-bg); }
+
+	/* ---------- Menus & dropdowns ---------- */
+	/* Menus are windows in silver: the very same 4px double line, a one-row ring
+		 of background around it, and a cell-aligned black shadow. (Modals, below, are
+		 the other kind of window: a solid title bar, no line.) */
+	.tui386-menu {
+		--window-bg: var(--tui386-silver);
+		background: var(--window-bg);
+		color: var(--tui386-black);
+		border: 4px double var(--tui386-black);
+		padding: 12px 28px;
+		box-shadow: 0 0 0 4px var(--tui386-silver), 16px 16px 0 4px var(--tui386-shadow-color);
+	}
+	/* Rows and lines work exactly as in a window (see .tui386-window): the box is
+		 drawn 3px low so the top and bottom lines each have a whole row to themselves,
+		 with the first and last items directly against them. */
+	.tui386-menu {
+		display: block;
+		min-width: 160px;
+		margin: 0 24px 44px 0;
+		padding: 9px 28px 3px;
+		translate: 0 3px;
+		list-style: none;
+	}
+	.tui386-menu > li > a,
+	.tui386-menu-item {
+		display: block;
+		margin: 0 -24px;
+		padding: 0 24px;
+		color: var(--tui386-black);
+		text-decoration: none;
+	}
+	/* the current item is cyan, but the pointer or keyboard focus always wins */
+	.tui386-menu > li > a.active,
+	.tui386-menu-item.active {
+		background: var(--tui386-cyan);
+		color: var(--tui386-white);
+	}
+	.tui386-menu > li > a:hover,
+	.tui386-menu-item:hover,
+	.tui386-menu > li > a:focus-visible,
+	.tui386-menu-item:focus-visible {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+	.tui386-menu-header {
+		display: block;
+		margin: 0 -24px;
+		padding: 0 24px;
+		text-transform: uppercase;
+		color: var(--tui386-gray);
+	}
+	.tui386-menu-divider {
+		/* a full row with the line through its middle: ├────┤, which does reach the border */
+		margin: 0 -28px;
+		border: 0;
+		height: 16px;
+		background: linear-gradient(var(--tui386-black), var(--tui386-black)) left 0 top 7px / 100% 1px no-repeat;
+	}
+	.tui386-caret::after { content: " \25BC"; }
+
+	/* ---------- Menu bar: File  Edit  Search  Help ----------
+		 A silver bar of <details> elements, each opening a .tui386-menu under its title.
+		 It opens and closes with no script (and only one at a time, via name="").
+		 TUI386.menus() adds the rest: Escape, a click elsewhere or a click on an item
+		 closes it, and moving across the bar while one is open switches menus. */
+	.tui386-menubar {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 16px;
+		padding: 0;
+		list-style: none;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+	.tui386-menubar > details {
+		position: relative;
+	}
+	.tui386-menubar summary {
+		display: block;
+		padding: 0 8px;
+		list-style: none;
+		cursor: default;
+		user-select: none;
+	}
+	.tui386-menubar summary::-webkit-details-marker { display: none; }
+	.tui386-menubar summary::first-letter { color: var(--tui386-red); }
+	.tui386-menubar summary:hover,
+	.tui386-menubar details[open] > summary {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+	.tui386-menubar summary:hover::first-letter,
+	.tui386-menubar details[open] > summary::first-letter { color: inherit; }
+	/* the drop-down hangs just under the bar, over whatever is below it */
+	.tui386-menubar .tui386-menu {
+		position: absolute;
+		z-index: 10;
+		top: 100%;
+		left: 0;
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	/* ---------- Alerts ---------- */
+	/* Single-line boxes, as the CP437 characters would draw them: the line
+		 (2px wide on the sides, 1px tall top and bottom, like the font's own) runs
+		 through the middle of a one-cell gutter, and the text starts a row below. */
+	.tui386-alert,
+	.tui386-well {
+		--alert-bg: var(--tui386-brown);
+		--alert-fg: var(--tui386-white);
+		position: relative;
+		display: flow-root;
+		margin-bottom: 16px;
+		padding: 16px;
+		background: var(--alert-bg);
+		color: var(--alert-fg);
+	}
+	.tui386-alert::before,
+	.tui386-well::before {
+		content: "";
+		position: absolute;
+		inset: 7px 3px;
+		border: solid var(--alert-fg);
+		border-width: 1px 2px;
+		pointer-events: none;
+	}
+	/* well: black field, gray line */
+	.tui386-well {
+		--alert-bg: var(--tui386-inset);
+		--alert-fg: var(--tui386-gray);
+		color: var(--tui386-silver);
+	}
+
+	.tui386-alert-title,
+	.tui386-alert h4 {
+		color: var(--alert-fg);
+		margin: 0;
+		font-size: inherit;
+		font-weight: inherit;
+	}
+	.tui386-alert-title::before { content: "! "; }
+	.tui386-alert a { color: var(--alert-fg); text-decoration: underline; }
+	.tui386-alert a:hover { background: var(--alert-fg); color: var(--alert-bg); }
+	.tui386-alert-success { --alert-bg: var(--tui386-green); --alert-fg: var(--tui386-white); }
+	.tui386-alert-danger  { --alert-bg: var(--tui386-red);   --alert-fg: var(--tui386-white); }
+	.tui386-alert-info    { --alert-bg: var(--tui386-cyan);  --alert-fg: var(--tui386-black); }
+	.tui386-alert-block   { padding-top: 16px; padding-bottom: 16px; }
+
+	/* ---------- Labels & badges ---------- */
+	.tui386-label {
+		display: inline-block;
+		padding: 0 8px;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		vertical-align: baseline;
+		white-space: nowrap;
+	}
+	.tui386-label-success { background: var(--tui386-bright-green); }
+	.tui386-label-info    { background: var(--tui386-bright-cyan); }
+	.tui386-label-warning { background: var(--tui386-yellow); }
+	.tui386-label-danger  { background: var(--tui386-bright-red); }
+	.tui386-label-inverse { background: var(--tui386-black); color: var(--tui386-silver); }
+	.tui386-badge::before { content: "["; }
+	.tui386-badge::after  { content: "]"; }
+	.tui386-badge { color: var(--tui386-white); white-space: nowrap; }
+
+	/* ---------- Tables ----------
+		 Lines are drawn the way the characters would be: a 1px horizontal and a
+		 2px vertical line through the middle of a one-cell gutter (a 16px row
+		 between text rows, an 8px column between cells), with a cell of air
+		 before the text. Each cell paints the lines it owns as background layers
+		 and trims them so they START and STOP where they meet another line:
+			 ┌─┬─┐
+			 ├─┼─┤   (the edges end in T shapes and corners, never crosses)
+			 └─┴─┘                                                              */
+	.tui386-table {
+		--line: var(--tui386-silver);
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 16px;
+	}
+	/* some frameworks shrink and nowrap the header and footer rows */
+	.tui386-table > :is(thead, tfoot) {
+		font-size: inherit;
+		white-space: normal;
+	}
+	.tui386-table th,
+	.tui386-table td {
+		/* which lines this cell draws, and their colors */
+		--t: var(--line);
+		--l: transparent;
+		--b: transparent;
+		--r: transparent;
+		/* how far each line is trimmed from the cell's edge */
+		--hl: 0px;   /* horizontal lines: from the left */
+		--hr: 0px;   /*                   from the right */
+		--vt: 0px;   /* vertical lines:   from the top */
+		--vb: 0px;   /*                   from the bottom */
+		/* the hover/stripe bar: only the text row, inside the border cells */
+		--fill: transparent;
+		--fx1: 0px;
+		--fx2: 0px;
+		--fb: 0px;
+		padding: 16px 16px 0;
+		text-align: left;
+		vertical-align: top;
+		border: 0;
+		background-repeat: no-repeat;
+		background-image:
+			linear-gradient(var(--t), var(--t)),
+			linear-gradient(var(--l), var(--l)),
+			linear-gradient(var(--b), var(--b)),
+			linear-gradient(var(--r), var(--r)),
+			linear-gradient(var(--fill), var(--fill));
+		background-size:
+			calc(100% - var(--hl) - var(--hr)) 1px,
+			2px calc(100% - var(--vt) - var(--vb)),
+			calc(100% - var(--hl) - var(--hr)) 1px,
+			2px calc(100% - var(--vt) - var(--vb)),
+			calc(100% - var(--fx1) - var(--fx2)) calc(100% - 16px - var(--fb));
+		background-position:
+			left var(--hl) top 7px,
+			left 3px top var(--vt),
+			left var(--hl) bottom 7px,
+			right 3px top var(--vt),
+			left var(--fx1) top 16px;
+	}
+	/* the bottom edge of the table */
+	.tui386-table > :is(thead, tbody, tfoot):last-child > tr:last-child > * {
+		--b: var(--line);
+		--vb: 7px;
+		--fb: 16px;
+		padding-bottom: 16px;
+	}
+	/* plain tables are only rules between rows, none above the header */
+	.tui386-table > thead:first-child > tr:first-child > * { --t: transparent; }
+	.tui386-table th { color: var(--tui386-white); }
+
+	/* bordered tables are the full grid */
+	/* the highlight bar stops short of each separator's gutter, so the line stays visible */
+	.tui386-table-bordered th,
+	.tui386-table-bordered td { --l: var(--line); --fx1: 8px; }
+	.tui386-table-bordered > :is(thead, tbody, tfoot):first-child > tr:first-child > * {
+		--t: var(--line);
+		--vt: 7px;
+	}
+	.tui386-table-bordered tr > :first-child { --hl: 3px; }
+	.tui386-table-bordered tr > :last-child  { --r: var(--line); --hr: 3px; --fx2: 8px; }
+
+	.tui386-table-striped tbody > tr:nth-child(odd) > * {
+		--fill: var(--tui386-inset);
+	}
+	.tui386-table-hover tbody > tr:hover > * {
+		--fill: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+
+	/* ---------- Progress: a row of shade with a solid bar ---------- */
+	.tui386-progress {
+		height: 16px;
+		margin-bottom: 16px;
+		background: var(--tui386-dither);
+		overflow: hidden;
+	}
+	.tui386-progress-bar {
+		height: 100%;
+		background: var(--tui386-white);
+		color: var(--tui386-black);
+		text-align: center;
+		white-space: nowrap;
+		transition: width 0.4s steps(10, end);
+	}
+	.tui386-progress-bar-success { background: var(--tui386-bright-green); }
+	.tui386-progress-bar-danger  { background: var(--tui386-bright-red); }
+	.tui386-progress-bar-info    { background: var(--tui386-bright-cyan); }
+	.tui386-progress-bar-warning { background: var(--tui386-yellow); }
+
+	/* ---------- Modals: use a native <dialog class="modal"> ---------- */
+	.tui386-modal {
+		position: fixed;
+		inset: 0;
+		margin: auto;
+		width: min(560px, calc(100vw - 48px));
+		height: fit-content;
+		max-height: calc(100vh - 48px);
+		overflow: visible;
+		/* the Turbo Vision dialog: silver, a solid bar for a title, no line around
+			 it, just the standard shadow: one column wide and half a row tall (the lower-half-block
+			 character, like a button's) */
+		--window-bg: var(--tui386-silver);
+		background: var(--window-bg);
+		color: var(--tui386-black);
+		border: 0;
+		padding: 0;
+		box-shadow: var(--tui386-shadow);
+	}
+	.tui386-modal::backdrop {
+		background: rgb(0 0 0 / 0.8);
+	}
+	.tui386-modal h1, .tui386-modal h2, .tui386-modal h3, .tui386-modal h4 { color: var(--tui386-black); }
+	/* Dialog buttons are green, like Turbo Vision's: gray-on-gray is invisible */
+	.tui386-modal .tui386-btn:not(:hover, :focus-visible) { --btn-bg: var(--tui386-green); }
+	.tui386-modal .tui386-btn { --btn-fg: var(--tui386-white); }
+	.tui386-modal .tui386-btn-primary:not(:hover, :focus-visible) { --btn-bg: var(--tui386-bright-green); }
+	.tui386-modal .tui386-btn-primary { --btn-fg: var(--tui386-black); }
+	/* the title bar: a solid, full-width row with the title centered in it */
+	.tui386-modal-header {
+		padding: 0 8px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: center;
+		background: var(--tui386-white);
+		color: var(--tui386-black);
+	}
+	.tui386-modal-body:focus-visible { outline: 0; }
+	.tui386-modal-body {
+		max-height: calc(100vh - 160px);
+		padding: 16px 8px 0;
+		overflow-y: auto;
+	}
+	.tui386-modal-body > :last-child { margin-bottom: 0; }
+	.tui386-modal-footer {
+		/* it is usually a <form>, which the base styles give a bottom margin: not here */
+		margin: 16px 0 0;
+		padding: 0 8px;
+		text-align: center;
+	}
+
+	/* ---------- Dither fill + the close box ---------- */
+	.tui386-shade { background: var(--tui386-dither); }
+	.tui386-close::before { content: "[\00D7]"; }
+	.tui386-close {
+		float: right;
+		background: none;
+		border: 0;
+		color: inherit;
+		font: inherit;
+		cursor: default;
+	}
+	.tui386-close:hover { background: var(--tui386-white); color: var(--tui386-black); }
+
+	/* ---------- Breadcrumb / pager ---------- */
+	.tui386-breadcrumb {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 16px;
+		padding: 0;
+		list-style: none;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+	.tui386-breadcrumb > li {
+		padding: 0 8px;
+	}
+	.tui386-breadcrumb > li + li::before {
+		content: "\00BB ";
+		color: var(--tui386-gray);
+	}
+	.tui386-breadcrumb a { color: var(--tui386-blue); }
+	.tui386-breadcrumb a:hover { background: var(--tui386-blue); color: var(--tui386-silver); }
+
+	/* ---------- Text-mode cursor ---------- */
+	.tui386-cursor-block {
+		display: inline-block;
+		width: 8px;
+		height: 16px;
+		vertical-align: bottom;
+		background: var(--tui386-silver);
+		animation: tui386-blink 1s steps(1, end) infinite;
+	}
+}
+
+#tui386-boot-wrap {
+	position: fixed;
+	z-index: 2147483000;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--tui386-bg);
+	overflow: hidden;
+}
+#tui386-boot-bar {
+	float: right;
+	width: 100%;
+	height: 16px;
+	margin-top: -16px;
+	color: var(--tui386-white);
+	background: var(--tui386-bg);
+	line-height: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+#tui386-boot-cursor {
+	position: fixed;
+	z-index: 2147483000;
+	right: 0;
+	bottom: 0;
+	width: 8px;
+	height: 16px;
+	line-height: 16px;
+	color: var(--tui386-white);
+}
+
+/* The mouse pointer becomes a character cell that snaps to the grid */
+.tui386-cursor {
+	position: absolute;
+	z-index: 2147483001;
+	width: 8px;
+	height: 14px;
+	background: #cbd448;
+	mix-blend-mode: difference;
+	pointer-events: none;
+}
+html.tui386-cursor-on,
+html.tui386-cursor-on * {
+	cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tui386-cursor-block { animation: none; }
+	.tui386-progress-bar { transition: none; }
+}
+
+@keyframes tui386-unhide {
+	to { visibility: visible; }
+}
+
+@keyframes tui386-blink {
+	50% { opacity: 0; }
+}
+
+/*
+ * TUI386.css - Tailwind CSS v4 adapter.
+ *
+ *   @import "tailwindcss";
+ *   @import "tui386/tailwind";
+ *
+ * This is the only file that knows about Tailwind. It maps tokens.css onto
+ * Tailwind's theme, and nothing else. The components are plain CSS.
+ *
+ * 1 spacing unit = 8px = 1 column.  2 units = 16px = 1 row.
+ * So `mb-2` is one blank line and `px-1` is one space.
+ */
+
+/* `inline` so utilities resolve to the --tui386-* variables instead of copies */
+@theme inline {
+	--color-*: initial;
+	--color-black: var(--tui386-black);
+	--color-blue: var(--tui386-blue);
+	--color-green: var(--tui386-green);
+	--color-cyan: var(--tui386-cyan);
+	--color-red: var(--tui386-red);
+	--color-magenta: var(--tui386-magenta);
+	--color-brown: var(--tui386-brown);
+	--color-silver: var(--tui386-silver);
+	--color-gray: var(--tui386-gray);
+	--color-bright-blue: var(--tui386-bright-blue);
+	--color-bright-green: var(--tui386-bright-green);
+	--color-bright-cyan: var(--tui386-bright-cyan);
+	--color-bright-red: var(--tui386-bright-red);
+	--color-bright-magenta: var(--tui386-bright-magenta);
+	--color-yellow: var(--tui386-yellow);
+	--color-white: var(--tui386-white);
+
+	--font-sans: var(--tui386-font);
+	--font-serif: var(--tui386-font);
+	--font-mono: var(--tui386-font);
+
+	--shadow-*: initial;
+	--shadow-dos: var(--tui386-shadow);
+}
+
+@theme {
+	--spacing: 8px;
+
+	/* One type size, one weight. text-xl is a lie we tell for compatibility. */
+	--text-*: initial;
+	--text-xs: 16px;   --text-xs--line-height: 16px;
+	--text-sm: 16px;   --text-sm--line-height: 16px;
+	--text-base: 16px; --text-base--line-height: 16px;
+	--text-lg: 16px;   --text-lg--line-height: 16px;
+	--text-xl: 16px;   --text-xl--line-height: 16px;
+	--text-2xl: 16px;  --text-2xl--line-height: 16px;
+	--text-3xl: 16px;  --text-3xl--line-height: 16px;
+	--text-4xl: 16px;  --text-4xl--line-height: 16px;
+	--text-5xl: 16px;  --text-5xl--line-height: 16px;
+	--text-6xl: 16px;  --text-6xl--line-height: 16px;
+	--text-7xl: 16px;  --text-7xl--line-height: 16px;
+	--text-8xl: 16px;  --text-8xl--line-height: 16px;
+	--text-9xl: 16px;  --text-9xl--line-height: 16px;
+
+	--font-weight-*: initial;
+	--font-weight-normal: normal;
+	--font-weight-bold: normal;
+
+	--tracking-*: initial;
+	--leading-*: initial;
+
+	/* No curves, no blur */
+	--radius-*: initial;
+	--radius-xs: 0;  --radius-sm: 0;  --radius-md: 0;  --radius-lg: 0;
+	--radius-xl: 0;  --radius-2xl: 0; --radius-3xl: 0; --radius-4xl: 0;
+	--inset-shadow-*: initial;
+	--drop-shadow-*: initial;
+	--blur-*: initial;
+
+	/* Breakpoints measured in columns: 72, 96, 120, 144 and 168 of them */
+	--breakpoint-sm: 576px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 960px;
+	--breakpoint-xl: 1152px;
+	--breakpoint-2xl: 1344px;
+}
+
+@utility row-h { height: 16px; }
+@utility col-w { width: 8px; }
+@utility reverse { background: var(--tui386-silver); color: var(--tui386-black); }
+@utility dither { background: var(--tui386-dither); }
+@utility shadow-drop { box-shadow: var(--tui386-shadow); }
+@utility rule-double { border-top: 4px double currentColor; }

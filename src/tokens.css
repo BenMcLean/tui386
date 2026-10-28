@@ -1,0 +1,72 @@
+/*
+ * TUI386.css - design tokens. Plain CSS custom properties; this file is the
+ * single source of truth for the look. Every adapter just maps these.
+ *
+ * The screen is a grid of 8px x 16px character cells (IBM EGA 8x14 font drawn
+ * at 16px). One column is 8px, one row is 16px.
+ */
+@font-face {
+	font-family: "DOS";
+	src: url("../fonts/Px437_IBM_EGA8.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+:root {
+	/* The sixteen EGA colors */
+	--tui386-black: #000000;
+	--tui386-blue: #0000aa;
+	--tui386-green: #00aa00;
+	--tui386-cyan: #00aaaa;
+	--tui386-red: #aa0000;
+	--tui386-magenta: #aa00aa;
+	--tui386-brown: #aa5500;
+	--tui386-silver: #aaaaaa;
+	--tui386-gray: #555555;
+	--tui386-bright-blue: #5555ff;
+	--tui386-bright-green: #55ff55;
+	--tui386-bright-cyan: #55ffff;
+	--tui386-bright-red: #ff5555;
+	--tui386-bright-magenta: #ff55ff;
+	--tui386-yellow: #ffff55;
+	--tui386-white: #ffffff;
+
+	--tui386-font: "DOS", Monaco, Menlo, Consolas, "Courier New", monospace;
+
+	--tui386-cell-w: 8px;
+	--tui386-cell-h: 16px;
+
+	/* Theme tokens: the few places where the blue and the black screens differ.
+		 Everything else is the same EGA colors in both. This is the blue screen
+		 (DOS EDIT, QBasic, Turbo Pascal), the default. */
+	--tui386-bg: var(--tui386-blue);            /* the screen and the windows on it */
+	--tui386-fg: var(--tui386-silver);          /* body text */
+	--tui386-inset: var(--tui386-black);        /* code, pre, wells, table stripes */
+	--tui386-shadow-color: var(--tui386-black);
+
+	/* The only shadow: hard, one column over and one half-row down */
+	--tui386-shadow: 8px 8px 0 0 var(--tui386-shadow-color);
+
+	/* A checkerboard standing in for 50% shade (scrollbars, progress, .shade) */
+	--tui386-dither: repeating-conic-gradient(var(--tui386-silver) 0% 25%, var(--tui386-gray) 0% 50%) 0 0 / 2px 2px;
+}
+
+/*
+ * The black screen (the DOS prompt, Norton-style gray-on-black). It follows the
+ * OS setting unless the page says data-theme="light"; data-theme="dark" forces it.
+ * (tui386 and tui386-dark are the same two screens under daisyUI's theme names.)
+ * A black shadow would vanish on black, so it turns gray.
+ */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"], [data-theme="tui386"]) {
+		--tui386-bg: var(--tui386-black);
+		--tui386-inset: var(--tui386-blue);
+		--tui386-shadow-color: var(--tui386-gray);
+	}
+}
+:root:is([data-theme="dark"], [data-theme="tui386-dark"]) {
+	--tui386-bg: var(--tui386-black);
+	--tui386-inset: var(--tui386-blue);
+	--tui386-shadow-color: var(--tui386-gray);
+}

@@ -1,0 +1,29 @@
+# Publishes to npm when a version tag (v1.2.3) is pushed. The version comes from the
+# tag; package.json in the repo keeps a placeholder and is never committed to.
+# Uses npm trusted publishing (OIDC), so there is no NPM_TOKEN secret to store or leak.
+# One-time setup on npmjs.com: package settings > Trusted Publisher > GitHub Actions,
+# with repo BenMcLean/tui386 and the workflow filename "publish.yml".
+name: publish
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      # Trusted publishing needs npm 11.5.1 or newer; Node 22 bundles an older npm.
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - name: Set version from tag
+        run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version
+      - run: npm publish --provenance --access public

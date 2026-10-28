@@ -1,0 +1,11 @@
+# Opens a PR for each outdated dependency. build.yml runs on every one, including the pixel
+# comparison of the four demo pages, so a green PR is just a version number change and a red
+# one shows what the bump broke. Nothing is merged automatically.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }

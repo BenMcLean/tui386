@@ -1,0 +1,1270 @@
+/*
+ * TUI386.css - design tokens. Plain CSS custom properties; this file is the
+ * single source of truth for the look. Every adapter just maps these.
+ *
+ * The screen is a grid of 8px x 16px character cells (IBM EGA 8x14 font drawn
+ * at 16px). One column is 8px, one row is 16px.
+ */
+@font-face {
+	font-family: "DOS";
+	src: url("../fonts/Px437_IBM_EGA8.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+:root {
+	/* The sixteen EGA colors */
+	--tui386-black: #000000;
+	--tui386-blue: #0000aa;
+	--tui386-green: #00aa00;
+	--tui386-cyan: #00aaaa;
+	--tui386-red: #aa0000;
+	--tui386-magenta: #aa00aa;
+	--tui386-brown: #aa5500;
+	--tui386-silver: #aaaaaa;
+	--tui386-gray: #555555;
+	--tui386-bright-blue: #5555ff;
+	--tui386-bright-green: #55ff55;
+	--tui386-bright-cyan: #55ffff;
+	--tui386-bright-red: #ff5555;
+	--tui386-bright-magenta: #ff55ff;
+	--tui386-yellow: #ffff55;
+	--tui386-white: #ffffff;
+
+	--tui386-font: "DOS", Monaco, Menlo, Consolas, "Courier New", monospace;
+
+	--tui386-cell-w: 8px;
+	--tui386-cell-h: 16px;
+
+	/* Theme tokens: the few places where the blue and the black screens differ.
+		 Everything else is the same EGA colors in both. This is the blue screen
+		 (DOS EDIT, QBasic, Turbo Pascal), the default. */
+	--tui386-bg: var(--tui386-blue);            /* the screen and the windows on it */
+	--tui386-fg: var(--tui386-silver);          /* body text */
+	--tui386-inset: var(--tui386-black);        /* code, pre, wells, table stripes */
+	--tui386-shadow-color: var(--tui386-black);
+
+	/* The only shadow: hard, one column over and one half-row down */
+	--tui386-shadow: 8px 8px 0 0 var(--tui386-shadow-color);
+
+	/* A checkerboard standing in for 50% shade (scrollbars, progress, .shade) */
+	--tui386-dither: repeating-conic-gradient(var(--tui386-silver) 0% 25%, var(--tui386-gray) 0% 50%) 0 0 / 2px 2px;
+}
+
+/*
+ * The black screen (the DOS prompt, Norton-style gray-on-black). It follows the
+ * OS setting unless the page says data-theme="light"; data-theme="dark" forces it.
+ * (tui386 and tui386-dark are the same two screens under daisyUI's theme names.)
+ * A black shadow would vanish on black, so it turns gray.
+ */
+:root[data-theme="tui386-dark"] {
+	--tui386-bg: var(--tui386-black);
+	--tui386-inset: var(--tui386-blue);
+	--tui386-shadow-color: var(--tui386-gray);
+}
+
+:where(:root[data-theme^="tui386"]) .btn,
+:where(:root[data-theme^="tui386"]) .btn::before,
+:where(:root[data-theme^="tui386"]) .btn::after,
+:where(:root[data-theme^="tui386"]) .badge,
+:where(:root[data-theme^="tui386"]) .badge::before,
+:where(:root[data-theme^="tui386"]) .badge::after,
+:where(:root[data-theme^="tui386"]) .alert,
+:where(:root[data-theme^="tui386"]) .alert::before,
+:where(:root[data-theme^="tui386"]) .alert::after,
+:where(:root[data-theme^="tui386"]) .alert-heading,
+:where(:root[data-theme^="tui386"]) .alert-heading::before,
+:where(:root[data-theme^="tui386"]) .alert-heading::after,
+:where(:root[data-theme^="tui386"]) .form-control,
+:where(:root[data-theme^="tui386"]) .form-control::before,
+:where(:root[data-theme^="tui386"]) .form-control::after,
+:where(:root[data-theme^="tui386"]) .form-select,
+:where(:root[data-theme^="tui386"]) .form-select::before,
+:where(:root[data-theme^="tui386"]) .form-select::after,
+:where(:root[data-theme^="tui386"]) .form-check-input,
+:where(:root[data-theme^="tui386"]) .form-check-input::before,
+:where(:root[data-theme^="tui386"]) .form-check-input::after,
+:where(:root[data-theme^="tui386"]) .form-label,
+:where(:root[data-theme^="tui386"]) .form-label::before,
+:where(:root[data-theme^="tui386"]) .form-label::after,
+:where(:root[data-theme^="tui386"]) .card,
+:where(:root[data-theme^="tui386"]) .card::before,
+:where(:root[data-theme^="tui386"]) .card::after,
+:where(:root[data-theme^="tui386"]) .card-header,
+:where(:root[data-theme^="tui386"]) .card-header::before,
+:where(:root[data-theme^="tui386"]) .card-header::after,
+:where(:root[data-theme^="tui386"]) .dropdown-menu,
+:where(:root[data-theme^="tui386"]) .dropdown-menu::before,
+:where(:root[data-theme^="tui386"]) .dropdown-menu::after,
+:where(:root[data-theme^="tui386"]) .dropdown-header,
+:where(:root[data-theme^="tui386"]) .dropdown-header::before,
+:where(:root[data-theme^="tui386"]) .dropdown-header::after,
+:where(:root[data-theme^="tui386"]) .dropdown-divider,
+:where(:root[data-theme^="tui386"]) .dropdown-divider::before,
+:where(:root[data-theme^="tui386"]) .dropdown-divider::after,
+:where(:root[data-theme^="tui386"]) .nav-tabs,
+:where(:root[data-theme^="tui386"]) .nav-tabs::before,
+:where(:root[data-theme^="tui386"]) .nav-tabs::after,
+:where(:root[data-theme^="tui386"]) .nav-link,
+:where(:root[data-theme^="tui386"]) .nav-link::before,
+:where(:root[data-theme^="tui386"]) .nav-link::after,
+:where(:root[data-theme^="tui386"]) .table,
+:where(:root[data-theme^="tui386"]) .table::before,
+:where(:root[data-theme^="tui386"]) .table::after,
+:where(:root[data-theme^="tui386"]) .breadcrumb,
+:where(:root[data-theme^="tui386"]) .breadcrumb::before,
+:where(:root[data-theme^="tui386"]) .breadcrumb::after,
+:where(:root[data-theme^="tui386"]) .progress,
+:where(:root[data-theme^="tui386"]) .progress::before,
+:where(:root[data-theme^="tui386"]) .progress::after,
+:where(:root[data-theme^="tui386"]) .progress-bar,
+:where(:root[data-theme^="tui386"]) .progress-bar::before,
+:where(:root[data-theme^="tui386"]) .progress-bar::after,
+:where(:root[data-theme^="tui386"]) .modal-content,
+:where(:root[data-theme^="tui386"]) .modal-content::before,
+:where(:root[data-theme^="tui386"]) .modal-content::after,
+:where(:root[data-theme^="tui386"]) .modal-header,
+:where(:root[data-theme^="tui386"]) .modal-header::before,
+:where(:root[data-theme^="tui386"]) .modal-header::after,
+:where(:root[data-theme^="tui386"]) .modal-body,
+:where(:root[data-theme^="tui386"]) .modal-body::before,
+:where(:root[data-theme^="tui386"]) .modal-body::after,
+:where(:root[data-theme^="tui386"]) .modal-footer,
+:where(:root[data-theme^="tui386"]) .modal-footer::before,
+:where(:root[data-theme^="tui386"]) .modal-footer::after,
+:where(:root[data-theme^="tui386"]) .navbar,
+:where(:root[data-theme^="tui386"]) .navbar::before,
+:where(:root[data-theme^="tui386"]) .navbar::after,
+:where(:root[data-theme^="tui386"]) .navbar-brand,
+:where(:root[data-theme^="tui386"]) .navbar-brand::before,
+:where(:root[data-theme^="tui386"]) .navbar-brand::after {
+	all: revert;
+	box-sizing: border-box;
+}
+:root[data-theme^="tui386"] {
+		font-family: var(--tui386-font);
+		font-size: 16px;
+		line-height: 16px;
+		font-synthesis: none;
+		font-kerning: none;
+		font-variant-ligatures: none;
+		-webkit-font-smoothing: none;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeSpeed;
+		background: var(--tui386-bg);
+		color-scheme: dark;
+	}
+@supports not selector(::-webkit-scrollbar) {
+:root[data-theme^="tui386"] {
+			scrollbar-color: var(--tui386-black) var(--tui386-silver);
+			scrollbar-width: auto;
+		}
+
+	
+}
+:root[data-theme^="tui386"] body {
+		background: var(--tui386-bg);
+		color: var(--tui386-fg);
+		min-height: 100vh;
+		
+		margin: 0;
+	}
+:root[data-theme^="tui386"] h1,
+:root[data-theme^="tui386"] h2,
+:root[data-theme^="tui386"] h3,
+:root[data-theme^="tui386"] h4,
+:root[data-theme^="tui386"] h5,
+:root[data-theme^="tui386"] h6 {
+		color: var(--tui386-white);
+		font-size: 16px;
+		font-weight: normal;
+		margin: 0 0 16px;
+	}
+:root[data-theme^="tui386"] *,
+:root[data-theme^="tui386"] ::before,
+:root[data-theme^="tui386"] ::after {
+		box-sizing: border-box;
+	}
+:root[data-theme^="tui386"] button,
+:root[data-theme^="tui386"] input,
+:root[data-theme^="tui386"] select,
+:root[data-theme^="tui386"] optgroup,
+:root[data-theme^="tui386"] textarea {
+		font: inherit;
+	}
+:root[data-theme^="tui386"] ul,
+:root[data-theme^="tui386"] ol {
+		list-style: none;
+	}
+:root[data-theme^="tui386"] blockquote,
+:root[data-theme^="tui386"] figure,
+:root[data-theme^="tui386"] dd {
+		margin-inline: 0;
+	}
+:root[data-theme^="tui386"] p,
+:root[data-theme^="tui386"] ul,
+:root[data-theme^="tui386"] ol,
+:root[data-theme^="tui386"] dl,
+:root[data-theme^="tui386"] pre,
+:root[data-theme^="tui386"] blockquote,
+:root[data-theme^="tui386"] table,
+:root[data-theme^="tui386"] figure,
+:root[data-theme^="tui386"] form,
+:root[data-theme^="tui386"] fieldset {
+		margin-top: 0;
+		margin-bottom: 16px;
+	}
+:root[data-theme^="tui386"] ul,
+:root[data-theme^="tui386"] ol {
+		padding-left: 24px;
+	}
+:root[data-theme^="tui386"] a {
+		color: var(--tui386-yellow);
+		text-decoration: none;
+	}
+:root[data-theme^="tui386"] a:hover,
+:root[data-theme^="tui386"] a:focus-visible {
+		background: var(--tui386-yellow);
+		color: var(--tui386-bg);
+	}
+:root[data-theme^="tui386"] b,
+:root[data-theme^="tui386"] strong,
+:root[data-theme^="tui386"] th {
+		font-weight: normal;
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] em,
+:root[data-theme^="tui386"] i,
+:root[data-theme^="tui386"] cite,
+:root[data-theme^="tui386"] dfn,
+:root[data-theme^="tui386"] var {
+		font-style: normal;
+		color: var(--tui386-bright-cyan);
+	}
+:root[data-theme^="tui386"] small {
+		font-size: inherit;
+	}
+:root[data-theme^="tui386"] abbr[title] {
+		text-decoration: none;
+		border-bottom: 2px dotted currentColor;
+	}
+:root[data-theme^="tui386"] hr {
+		border: 0;
+		border-top: 4px double var(--tui386-silver);
+		height: 0;
+		margin: 6px 0;
+		color: inherit;
+		opacity: 1;
+	}
+:root[data-theme^="tui386"] blockquote {
+		padding-left: 16px;
+		border-left: 8px double var(--tui386-silver);
+		color: var(--tui386-bright-cyan);
+	}
+:root[data-theme^="tui386"] code,
+:root[data-theme^="tui386"] kbd,
+:root[data-theme^="tui386"] samp,
+:root[data-theme^="tui386"] pre {
+		font-family: var(--tui386-font);
+		font-size: 16px;
+	}
+:root[data-theme^="tui386"] code,
+:root[data-theme^="tui386"] samp {
+		background: var(--tui386-inset);
+		color: var(--tui386-bright-green);
+		padding: 0 8px;
+	}
+:root[data-theme^="tui386"] kbd {
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		padding: 0 8px;
+		box-shadow: var(--tui386-shadow);
+		margin-right: 8px;
+	}
+:root[data-theme^="tui386"] pre {
+		background: var(--tui386-inset);
+		color: var(--tui386-silver);
+		padding: 16px;
+		overflow-x: auto;
+	}
+:root[data-theme^="tui386"] pre code {
+		background: none;
+		padding: 0;
+		color: inherit;
+	}
+:root[data-theme^="tui386"] mark {
+		padding: 0;
+		background: var(--tui386-yellow);
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] ::selection {
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] :focus-visible {
+		outline: 2px dashed var(--tui386-yellow);
+		outline-offset: 0;
+	}
+:root[data-theme^="tui386"] img,
+:root[data-theme^="tui386"] svg,
+:root[data-theme^="tui386"] video,
+:root[data-theme^="tui386"] canvas {
+		image-rendering: pixelated;
+	}
+:root[data-theme^="tui386"] legend {
+		color: var(--tui386-white);
+		padding: 0;
+		width: 100%;
+		margin-bottom: 16px;
+	}
+:root[data-theme^="tui386"] legend::before { content: "## "; }
+:root[data-theme^="tui386"] legend::after { content: " ##"; }
+:root[data-theme^="tui386"] fieldset {
+		border: 0;
+		padding: 0;
+		margin-left: 0;
+		margin-right: 0;
+		min-width: 0;
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar,
+:root[data-theme^="tui386"] ::-webkit-scrollbar {
+		width: 8px;
+		height: 16px;
+		background: var(--tui386-black);
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-thumb,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-thumb {
+		background: var(--tui386-black);
+		border-left: 2px solid var(--tui386-silver);
+		border-right: 2px solid var(--tui386-silver);
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-track,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-track {
+		background: var(--tui386-dither);
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-corner,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-corner {
+		background: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-button,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-button {
+		display: block;
+		height: 16px;
+		background-color: var(--tui386-silver);
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-button:vertical:start:decrement,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-button:vertical:start:decrement {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 5h2v2H3zM2 7h4v2H2zM1 9h6v2H1z'/%3E%3C/svg%3E");
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-button:vertical:end:increment,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-button:vertical:end:increment {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M1 5h6v2H1zM2 7h4v2H2zM3 9h2v2H3z'/%3E%3C/svg%3E");
+	}
+:root[data-theme^="tui386"]::-webkit-scrollbar-button:vertical:start:increment,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-button:vertical:start:increment,
+:root[data-theme^="tui386"]::-webkit-scrollbar-button:vertical:end:decrement,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-button:vertical:end:decrement,
+:root[data-theme^="tui386"]::-webkit-scrollbar-button:horizontal,
+:root[data-theme^="tui386"] ::-webkit-scrollbar-button:horizontal { display: none; }
+:root[data-theme^="tui386"].tui386-boot body {
+		visibility: hidden;
+		animation: tui386-unhide 0s 3s forwards;
+	}
+
+:root[data-theme^="tui386"] .tui386-btn,
+:root[data-theme^="tui386"] .btn {
+		--btn-bg: var(--tui386-silver);
+		--btn-fg: var(--tui386-black);
+		--btn-shadow: var(--tui386-shadow-color);
+		--dx: 0px;   
+		--dy: 0px;
+		display: inline-block;
+		
+		padding: calc(0px + var(--dy)) calc(16px - var(--dx)) calc(16px - var(--dy)) calc(8px + var(--dx));
+		margin: 0;
+		
+		clip-path: inset(0 0 8px 0);
+		color: var(--btn-fg);
+		border: 0;
+		font: inherit;
+		text-align: center;
+		vertical-align: top;
+		cursor: default;
+		user-select: none;
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-image:
+			linear-gradient(var(--btn-bg), var(--btn-bg)),
+			linear-gradient(var(--btn-shadow), var(--btn-shadow)),
+			linear-gradient(var(--btn-shadow), var(--btn-shadow));
+		background-size:
+			calc(100% - 8px) calc(100% - 16px),   
+			8px calc(100% - 16px),                
+			calc(100% - 8px) 8px;                 
+		background-position:
+			var(--dx) var(--dy),
+			right top 8px,
+			right bottom 8px;
+	}
+:root[data-theme^="tui386"] .tui386-btn::before,
+:root[data-theme^="tui386"] .btn::before { content: "< "; }
+:root[data-theme^="tui386"] .tui386-btn::after,
+:root[data-theme^="tui386"] .btn::after { content: " >"; }
+:root[data-theme^="tui386"] .tui386-btn:hover,
+:root[data-theme^="tui386"] .tui386-btn:focus-visible,
+:root[data-theme^="tui386"] .btn:hover,
+:root[data-theme^="tui386"] .btn:focus-visible {
+		--btn-bg: var(--tui386-gray);
+		color: var(--tui386-white);
+		outline: 0;
+	}
+:root[data-theme^="tui386"] .tui386-btn:active,
+:root[data-theme^="tui386"] .tui386-btn.active,
+:root[data-theme^="tui386"] .btn:active,
+:root[data-theme^="tui386"] .btn.active {
+		--dx: 8px;
+		--dy: 8px;
+		--btn-shadow: transparent;
+	}
+:root[data-theme^="tui386"] .tui386-btn:disabled,
+:root[data-theme^="tui386"] .tui386-btn.disabled,
+:root[data-theme^="tui386"] .btn:disabled,
+:root[data-theme^="tui386"] .btn.disabled {
+		--btn-bg: var(--tui386-gray);
+		--btn-shadow: transparent;
+		--dx: 0px;
+		--dy: 0px;
+		opacity: 1;
+		color: var(--tui386-silver);
+		pointer-events: none;
+	}
+:root[data-theme^="tui386"] .tui386-btn-primary,
+:root[data-theme^="tui386"] .btn-primary { --btn-bg: var(--tui386-yellow);        --btn-fg: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-btn-success,
+:root[data-theme^="tui386"] .btn-success { --btn-bg: var(--tui386-bright-green);  --btn-fg: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-btn-info,
+:root[data-theme^="tui386"] .btn-info { --btn-bg: var(--tui386-bright-cyan);   --btn-fg: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-btn-warning,
+:root[data-theme^="tui386"] .btn-warning { --btn-bg: var(--tui386-brown);         --btn-fg: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-btn-danger,
+:root[data-theme^="tui386"] .btn-danger { --btn-bg: var(--tui386-red);           --btn-fg: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-btn-lg,
+:root[data-theme^="tui386"] .btn-lg { padding-top: calc(16px + var(--dy)); padding-bottom: calc(32px - var(--dy)); }
+:root[data-theme^="tui386"] .tui386-btn-block,
+:root[data-theme^="tui386"] .w-100 { display: block; width: 100%; }
+:root[data-theme^="tui386"] .tui386-btn-bare::before,
+:root[data-theme^="tui386"] .tui386-btn-bare::after { content: ""; }
+:root[data-theme^="tui386"] .tui386-input,
+:root[data-theme^="tui386"] .tui386-select,
+:root[data-theme^="tui386"] .tui386-textarea,
+:root[data-theme^="tui386"] .form-control:not(textarea),
+:root[data-theme^="tui386"] .form-select,
+:root[data-theme^="tui386"] .form-control:is(textarea) {
+		display: inline-block;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		border: 0;
+		border-radius: 0;
+		padding: 0 8px;
+		margin: 0 0 16px;
+		font: inherit;
+		line-height: 16px;
+		height: 16px;
+		width: 240px;
+		max-width: 100%;
+		vertical-align: top;
+		caret-color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-input::placeholder,
+:root[data-theme^="tui386"] .tui386-textarea::placeholder,
+:root[data-theme^="tui386"] .form-control:not(textarea)::placeholder,
+:root[data-theme^="tui386"] .form-control:is(textarea)::placeholder {
+		color: var(--tui386-gray);
+		opacity: 1;
+	}
+:root[data-theme^="tui386"] .tui386-input:focus,
+:root[data-theme^="tui386"] .tui386-textarea:focus,
+:root[data-theme^="tui386"] .form-control:not(textarea):focus,
+:root[data-theme^="tui386"] .form-control:is(textarea):focus {
+		outline: 0;
+		background: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-input:disabled,
+:root[data-theme^="tui386"] .tui386-select:disabled,
+:root[data-theme^="tui386"] .tui386-textarea:disabled,
+:root[data-theme^="tui386"] .form-control:not(textarea):disabled,
+:root[data-theme^="tui386"] .form-select:disabled,
+:root[data-theme^="tui386"] .form-control:is(textarea):disabled {
+		background: var(--tui386-gray);
+		color: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-textarea,
+:root[data-theme^="tui386"] .form-control:is(textarea) {
+		height: auto;
+		padding: 0 8px;
+		resize: none;
+		display: block;
+	}
+:root[data-theme^="tui386"] .tui386-select,
+:root[data-theme^="tui386"] .form-select {
+		appearance: none;
+		padding-right: 24px;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M0 5h8v2H0zM1 7h6v2H1zM2 9h4v2H2zM3 11h2v2H3z'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 8px center;
+	}
+@supports (appearance: base-select) {
+:root[data-theme^="tui386"] .tui386-select,
+:root[data-theme^="tui386"] .tui386-select::picker(select),
+:root[data-theme^="tui386"] .form-select,
+:root[data-theme^="tui386"] .form-select::picker(select) {
+			appearance: base-select;
+		}
+:root[data-theme^="tui386"] .tui386-select,
+:root[data-theme^="tui386"] .form-select {
+			min-height: 16px;
+			height: 16px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 8px;
+			background-image: none;
+		}
+:root[data-theme^="tui386"] .tui386-select::picker-icon,
+:root[data-theme^="tui386"] .form-select::picker-icon {
+			display: inline;
+			content: "\25BC";
+			color: var(--tui386-black);
+			margin-left: 8px;
+			transition: none;
+		}
+:root[data-theme^="tui386"] .tui386-select::picker(select),
+:root[data-theme^="tui386"] .form-select::picker(select) {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			box-shadow: none;
+			font: inherit;
+			line-height: 16px;
+			color: var(--tui386-black);
+			background: var(--tui386-silver);
+		}
+:root[data-theme^="tui386"] .tui386-select option,
+:root[data-theme^="tui386"] .form-select option {
+			display: block;
+			box-sizing: border-box;
+			height: 16px;
+			min-height: 0;
+			margin: 0;
+			padding: 0 8px;
+			line-height: 16px;
+			color: var(--tui386-black);
+			background: none;
+		}
+:root[data-theme^="tui386"] .tui386-select option::checkmark,
+:root[data-theme^="tui386"] .form-select option::checkmark { display: none; }
+:root[data-theme^="tui386"] .tui386-select option:checked,
+:root[data-theme^="tui386"] .form-select option:checked { background: var(--tui386-cyan); color: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-select option:hover,
+:root[data-theme^="tui386"] .tui386-select option:focus-visible,
+:root[data-theme^="tui386"] .form-select option:hover,
+:root[data-theme^="tui386"] .form-select option:focus-visible { background: var(--tui386-black); color: var(--tui386-silver); outline: 0; }
+
+	
+}
+:root[data-theme^="tui386"] .tui386-field-label,
+:root[data-theme^="tui386"] .form-label {
+		display: block;
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-field-help {
+		display: block;
+		color: var(--tui386-bright-cyan);
+	}
+:root[data-theme^="tui386"] .tui386-is-invalid { background: var(--tui386-bright-red); }
+:root[data-theme^="tui386"] .tui386-check,
+:root[data-theme^="tui386"] .tui386-radio,
+:root[data-theme^="tui386"] .form-check-input[type="checkbox"],
+:root[data-theme^="tui386"] .form-check-input[type="radio"] {
+		appearance: none;
+		display: inline-block;
+		width: 24px;
+		height: 16px;
+		margin: 0 8px 0 0;
+		padding: 0;
+		vertical-align: top;
+		background: none;
+		border: 0;
+		color: var(--tui386-silver);
+		font: inherit;
+		line-height: 16px;
+		opacity: 1;
+	}
+:root[data-theme^="tui386"] .tui386-check::before,
+:root[data-theme^="tui386"] .form-check-input[type="checkbox"]::before { content: "[ ]"; }
+:root[data-theme^="tui386"] .tui386-check:checked::before,
+:root[data-theme^="tui386"] .form-check-input[type="checkbox"]:checked::before { content: "[x]"; color: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-radio::before,
+:root[data-theme^="tui386"] .form-check-input[type="radio"]::before { content: "( )"; }
+:root[data-theme^="tui386"] .tui386-radio:checked::before,
+:root[data-theme^="tui386"] .form-check-input[type="radio"]:checked::before { content: "(\2022)"; color: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-check:focus-visible,
+:root[data-theme^="tui386"] .tui386-radio:focus-visible,
+:root[data-theme^="tui386"] .form-check-input[type="checkbox"]:focus-visible,
+:root[data-theme^="tui386"] .form-check-input[type="radio"]:focus-visible { outline: 2px dashed var(--tui386-yellow); }
+:root[data-theme^="tui386"] .tui386-check:disabled,
+:root[data-theme^="tui386"] .tui386-radio:disabled,
+:root[data-theme^="tui386"] .form-check-input[type="checkbox"]:disabled,
+:root[data-theme^="tui386"] .form-check-input[type="radio"]:disabled { color: var(--tui386-gray); opacity: 1; }
+:root[data-theme^="tui386"] .tui386-range,
+:root[data-theme^="tui386"] .form-range {
+		appearance: none;
+		display: block;
+		width: 100%;
+		height: 16px;
+		margin: 0 0 16px;
+		background: var(--tui386-dither);
+		overflow: visible;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+	}
+:root[data-theme^="tui386"] .tui386-range::-webkit-slider-runnable-track,
+:root[data-theme^="tui386"] .form-range::-webkit-slider-runnable-track {
+		height: 16px;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+:root[data-theme^="tui386"] .tui386-range::-moz-range-track,
+:root[data-theme^="tui386"] .form-range::-moz-range-track {
+		height: 16px;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+:root[data-theme^="tui386"] .tui386-range::-webkit-slider-thumb,
+:root[data-theme^="tui386"] .form-range::-webkit-slider-thumb {
+		appearance: none;
+		position: static;
+		width: 16px;
+		height: 16px;
+		margin: 0;
+		border: 0;
+		border-radius: 0;
+		translate: none;
+		transform: none;
+		box-shadow: none;
+		background: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-range::-moz-range-thumb,
+:root[data-theme^="tui386"] .form-range::-moz-range-thumb {
+		width: 16px;
+		height: 16px;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		background: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-window,
+:root[data-theme^="tui386"] .card {
+		--window-bg: var(--tui386-bg);
+		position: relative;
+		display: flow-root;
+		
+		margin: 0 0 28px;
+		
+		padding: 9px 8px 3px;
+		translate: 0 3px;
+		background: var(--window-bg);
+		color: var(--tui386-fg);
+		border: 4px double var(--tui386-white);
+		
+		box-shadow: 0 0 0 4px var(--window-bg);
+	}
+:root[data-theme^="tui386"] .tui386-window-title,
+:root[data-theme^="tui386"] .card-header {
+		
+		position: absolute;
+		top: -7px;
+		
+		left: 8px;
+		box-sizing: border-box;
+		width: max-content;
+		max-width: calc(100% - 16px);
+		margin: 0;
+		
+		font-size: inherit;
+		font-weight: inherit;
+		padding: 0 8px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		background: var(--window-bg);
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-window-cyan {
+		--window-bg: var(--tui386-cyan);
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-window-gray {
+		--window-bg: var(--tui386-silver);
+		color: var(--tui386-black);
+		border-color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-window-gray .tui386-window-title,
+:root[data-theme^="tui386"] .tui386-window-gray h1,
+:root[data-theme^="tui386"] .tui386-window-gray h2,
+:root[data-theme^="tui386"] .tui386-window-gray h3,
+:root[data-theme^="tui386"] .tui386-window-gray .card-header { color: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-window-gray a { color: var(--tui386-blue); }
+:root[data-theme^="tui386"] .tui386-window-gray a:hover { background: var(--tui386-blue); color: var(--tui386-silver); }
+:root[data-theme^="tui386"] .tui386-banner {
+		margin: 0 0 16px;
+		padding: 16px;
+		background: var(--tui386-cyan);
+		color: var(--tui386-black);
+		text-transform: uppercase;
+	}
+:root[data-theme^="tui386"] .tui386-banner h1,
+:root[data-theme^="tui386"] .tui386-banner h2,
+:root[data-theme^="tui386"] .tui386-banner h3 { color: inherit; margin: 0; }
+:root[data-theme^="tui386"] .tui386-navbar,
+:root[data-theme^="tui386"] .navbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: stretch;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		margin-bottom: 16px;
+	}
+:root[data-theme^="tui386"] .tui386-navbar-brand,
+:root[data-theme^="tui386"] .navbar-brand {
+		padding: 0 8px;
+		margin-right: 8px;
+		background: var(--tui386-black);
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-navbar a,
+:root[data-theme^="tui386"] .tui386-nav-link,
+:root[data-theme^="tui386"] .navbar a {
+		display: block;
+		padding: 0 8px;
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-navbar a::first-letter,
+:root[data-theme^="tui386"] .tui386-nav-link::first-letter,
+:root[data-theme^="tui386"] .navbar a::first-letter {
+		color: var(--tui386-red);
+	}
+:root[data-theme^="tui386"] .tui386-navbar a:hover,
+:root[data-theme^="tui386"] .tui386-navbar a:focus-visible,
+:root[data-theme^="tui386"] .tui386-nav-link:hover,
+:root[data-theme^="tui386"] .tui386-nav-link:focus-visible,
+:root[data-theme^="tui386"] .navbar a:hover,
+:root[data-theme^="tui386"] .navbar a:focus-visible {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-navbar a.active,
+:root[data-theme^="tui386"] .tui386-nav-link.active,
+:root[data-theme^="tui386"] .navbar a.active {
+		background: var(--tui386-blue);
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-navbar a.tui386-navbar-brand,
+:root[data-theme^="tui386"] .navbar a.navbar-brand { background: var(--tui386-black); color: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-navbar a.tui386-navbar-brand::first-letter,
+:root[data-theme^="tui386"] .navbar a.navbar-brand::first-letter { color: inherit; }
+:root[data-theme^="tui386"] .tui386-navbar a.tui386-navbar-brand:hover,
+:root[data-theme^="tui386"] .navbar a.navbar-brand:hover { background: var(--tui386-white); color: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-tabs,
+:root[data-theme^="tui386"] .nav-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 16px;
+		padding: 0;
+		list-style: none;
+		background: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-tab,
+:root[data-theme^="tui386"] .nav-link {
+		display: block;
+		padding: 0 8px;
+		color: var(--tui386-black);
+		text-decoration: none;
+	}
+:root[data-theme^="tui386"] .tui386-tab:hover,
+:root[data-theme^="tui386"] .tui386-tab:focus-visible,
+:root[data-theme^="tui386"] .nav-link:hover,
+:root[data-theme^="tui386"] .nav-link:focus-visible {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-tab.active,
+:root[data-theme^="tui386"] [aria-selected="true"].tui386-tab,
+:root[data-theme^="tui386"] .nav-link.active,
+:root[data-theme^="tui386"] [aria-selected="true"].nav-link {
+		background: var(--tui386-blue);
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-pill {
+		display: inline-block;
+		padding: 0 8px;
+		margin-right: 8px;
+		color: var(--tui386-yellow);
+	}
+:root[data-theme^="tui386"] .tui386-pill:hover { background: var(--tui386-yellow); color: var(--tui386-bg); }
+:root[data-theme^="tui386"] .tui386-pill.active { background: var(--tui386-yellow); color: var(--tui386-bg); }
+:root[data-theme^="tui386"] .tui386-menu,
+:root[data-theme^="tui386"] .dropdown-menu {
+		--window-bg: var(--tui386-silver);
+		background: var(--window-bg);
+		color: var(--tui386-black);
+		border: 4px double var(--tui386-black);
+		padding: 12px 28px;
+		box-shadow: 0 0 0 4px var(--tui386-silver), 16px 16px 0 4px var(--tui386-shadow-color);
+	}
+:root[data-theme^="tui386"] .tui386-menu,
+:root[data-theme^="tui386"] .dropdown-menu {
+		display: block;
+		min-width: 160px;
+		margin: 0 24px 44px 0;
+		padding: 9px 28px 3px;
+		translate: 0 3px;
+		list-style: none;
+	}
+:root[data-theme^="tui386"] .tui386-menu > li > a,
+:root[data-theme^="tui386"] .tui386-menu-item,
+:root[data-theme^="tui386"] .dropdown-menu > li > a {
+		display: block;
+		margin: 0 -24px;
+		padding: 0 24px;
+		color: var(--tui386-black);
+		text-decoration: none;
+	}
+:root[data-theme^="tui386"] .tui386-menu > li > a.active,
+:root[data-theme^="tui386"] .tui386-menu-item.active,
+:root[data-theme^="tui386"] .dropdown-menu > li > a.active {
+		background: var(--tui386-cyan);
+		color: var(--tui386-white);
+	}
+:root[data-theme^="tui386"] .tui386-menu > li > a:hover,
+:root[data-theme^="tui386"] .tui386-menu-item:hover,
+:root[data-theme^="tui386"] .tui386-menu > li > a:focus-visible,
+:root[data-theme^="tui386"] .tui386-menu-item:focus-visible,
+:root[data-theme^="tui386"] .dropdown-menu > li > a:hover,
+:root[data-theme^="tui386"] .dropdown-menu > li > a:focus-visible {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-menu-header,
+:root[data-theme^="tui386"] .dropdown-header {
+		display: block;
+		margin: 0 -24px;
+		padding: 0 24px;
+		text-transform: uppercase;
+		color: var(--tui386-gray);
+	}
+:root[data-theme^="tui386"] .tui386-menu-divider,
+:root[data-theme^="tui386"] .dropdown-divider {
+		
+		margin: 0 -28px;
+		border: 0;
+		height: 16px;
+		background: linear-gradient(var(--tui386-black), var(--tui386-black)) left 0 top 7px / 100% 1px no-repeat;
+	}
+:root[data-theme^="tui386"] .tui386-caret::after { content: " \25BC"; }
+:root[data-theme^="tui386"] .tui386-menubar {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 16px;
+		padding: 0;
+		list-style: none;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-menubar > details {
+		position: relative;
+	}
+:root[data-theme^="tui386"] .tui386-menubar summary {
+		display: block;
+		padding: 0 8px;
+		list-style: none;
+		cursor: default;
+		user-select: none;
+	}
+:root[data-theme^="tui386"] .tui386-menubar summary::-webkit-details-marker { display: none; }
+:root[data-theme^="tui386"] .tui386-menubar summary::first-letter { color: var(--tui386-red); }
+:root[data-theme^="tui386"] .tui386-menubar summary:hover,
+:root[data-theme^="tui386"] .tui386-menubar details[open] > summary {
+		background: var(--tui386-black);
+		color: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-menubar summary:hover::first-letter,
+:root[data-theme^="tui386"] .tui386-menubar details[open] > summary::first-letter { color: inherit; }
+:root[data-theme^="tui386"] .tui386-menubar .tui386-menu,
+:root[data-theme^="tui386"] .tui386-menubar .dropdown-menu {
+		position: absolute;
+		z-index: 10;
+		top: 100%;
+		left: 0;
+		margin: 0;
+		white-space: nowrap;
+	}
+:root[data-theme^="tui386"] .tui386-alert,
+:root[data-theme^="tui386"] .tui386-well,
+:root[data-theme^="tui386"] .alert {
+		--alert-bg: var(--tui386-brown);
+		--alert-fg: var(--tui386-white);
+		position: relative;
+		display: flow-root;
+		margin-bottom: 16px;
+		padding: 16px;
+		background: var(--alert-bg);
+		color: var(--alert-fg);
+	}
+:root[data-theme^="tui386"] .tui386-alert::before,
+:root[data-theme^="tui386"] .tui386-well::before,
+:root[data-theme^="tui386"] .alert::before {
+		content: "";
+		position: absolute;
+		inset: 7px 3px;
+		border: solid var(--alert-fg);
+		border-width: 1px 2px;
+		pointer-events: none;
+	}
+:root[data-theme^="tui386"] .tui386-well {
+		--alert-bg: var(--tui386-inset);
+		--alert-fg: var(--tui386-gray);
+		color: var(--tui386-silver);
+	}
+:root[data-theme^="tui386"] .tui386-alert-title,
+:root[data-theme^="tui386"] .tui386-alert h4,
+:root[data-theme^="tui386"] .alert-heading,
+:root[data-theme^="tui386"] .alert h4 {
+		color: var(--alert-fg);
+		margin: 0;
+		font-size: inherit;
+		font-weight: inherit;
+	}
+:root[data-theme^="tui386"] .tui386-alert-title::before,
+:root[data-theme^="tui386"] .alert-heading::before { content: "! "; }
+:root[data-theme^="tui386"] .tui386-alert a,
+:root[data-theme^="tui386"] .alert a { color: var(--alert-fg); text-decoration: underline; }
+:root[data-theme^="tui386"] .tui386-alert a:hover,
+:root[data-theme^="tui386"] .alert a:hover { background: var(--alert-fg); color: var(--alert-bg); }
+:root[data-theme^="tui386"] .tui386-alert-success,
+:root[data-theme^="tui386"] .alert-success { --alert-bg: var(--tui386-green); --alert-fg: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-alert-danger,
+:root[data-theme^="tui386"] .alert-danger { --alert-bg: var(--tui386-red);   --alert-fg: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-alert-info,
+:root[data-theme^="tui386"] .alert-info { --alert-bg: var(--tui386-cyan);  --alert-fg: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-alert-block { padding-top: 16px; padding-bottom: 16px; }
+:root[data-theme^="tui386"] .tui386-label,
+:root[data-theme^="tui386"] .badge {
+		display: inline-block;
+		padding: 0 8px;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+		vertical-align: baseline;
+		white-space: nowrap;
+	}
+:root[data-theme^="tui386"] .tui386-label-success { background: var(--tui386-bright-green); }
+:root[data-theme^="tui386"] .tui386-label-info { background: var(--tui386-bright-cyan); }
+:root[data-theme^="tui386"] .tui386-label-warning { background: var(--tui386-yellow); }
+:root[data-theme^="tui386"] .tui386-label-danger { background: var(--tui386-bright-red); }
+:root[data-theme^="tui386"] .tui386-label-inverse { background: var(--tui386-black); color: var(--tui386-silver); }
+:root[data-theme^="tui386"] .tui386-badge::before { content: "["; }
+:root[data-theme^="tui386"] .tui386-badge::after { content: "]"; }
+:root[data-theme^="tui386"] .tui386-badge { color: var(--tui386-white); white-space: nowrap; }
+:root[data-theme^="tui386"] .tui386-table,
+:root[data-theme^="tui386"] .table {
+		--line: var(--tui386-silver);
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 16px;
+	}
+:root[data-theme^="tui386"] .tui386-table > :is(thead, tfoot),
+:root[data-theme^="tui386"] .table > :is(thead, tfoot) {
+		font-size: inherit;
+		white-space: normal;
+	}
+:root[data-theme^="tui386"] .tui386-table th,
+:root[data-theme^="tui386"] .tui386-table td,
+:root[data-theme^="tui386"] .table th,
+:root[data-theme^="tui386"] .table td {
+		
+		--t: var(--line);
+		--l: transparent;
+		--b: transparent;
+		--r: transparent;
+		
+		--hl: 0px;   
+		--hr: 0px;   
+		--vt: 0px;   
+		--vb: 0px;   
+		
+		--fill: transparent;
+		--fx1: 0px;
+		--fx2: 0px;
+		--fb: 0px;
+		padding: 16px 16px 0;
+		text-align: left;
+		vertical-align: top;
+		border: 0;
+		background-repeat: no-repeat;
+		background-image:
+			linear-gradient(var(--t), var(--t)),
+			linear-gradient(var(--l), var(--l)),
+			linear-gradient(var(--b), var(--b)),
+			linear-gradient(var(--r), var(--r)),
+			linear-gradient(var(--fill), var(--fill));
+		background-size:
+			calc(100% - var(--hl) - var(--hr)) 1px,
+			2px calc(100% - var(--vt) - var(--vb)),
+			calc(100% - var(--hl) - var(--hr)) 1px,
+			2px calc(100% - var(--vt) - var(--vb)),
+			calc(100% - var(--fx1) - var(--fx2)) calc(100% - 16px - var(--fb));
+		background-position:
+			left var(--hl) top 7px,
+			left 3px top var(--vt),
+			left var(--hl) bottom 7px,
+			right 3px top var(--vt),
+			left var(--fx1) top 16px;
+	}
+:root[data-theme^="tui386"] .tui386-table > :is(thead, tbody, tfoot):last-child > tr:last-child > *,
+:root[data-theme^="tui386"] .table > :is(thead, tbody, tfoot):last-child > tr:last-child > * {
+		--b: var(--line);
+		--vb: 7px;
+		--fb: 16px;
+		padding-bottom: 16px;
+	}
+:root[data-theme^="tui386"] .tui386-table > thead:first-child > tr:first-child > *,
+:root[data-theme^="tui386"] .table > thead:first-child > tr:first-child > * { --t: transparent; }
+:root[data-theme^="tui386"] .tui386-table th,
+:root[data-theme^="tui386"] .table th { color: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-table-bordered th,
+:root[data-theme^="tui386"] .tui386-table-bordered td,
+:root[data-theme^="tui386"] .table-bordered th,
+:root[data-theme^="tui386"] .table-bordered td { --l: var(--line); --fx1: 8px; }
+:root[data-theme^="tui386"] .tui386-table-bordered > :is(thead, tbody, tfoot):first-child > tr:first-child > *,
+:root[data-theme^="tui386"] .table-bordered > :is(thead, tbody, tfoot):first-child > tr:first-child > * {
+		--t: var(--line);
+		--vt: 7px;
+	}
+:root[data-theme^="tui386"] .tui386-table-bordered tr > :first-child,
+:root[data-theme^="tui386"] .table-bordered tr > :first-child { --hl: 3px; }
+:root[data-theme^="tui386"] .tui386-table-bordered tr > :last-child,
+:root[data-theme^="tui386"] .table-bordered tr > :last-child { --r: var(--line); --hr: 3px; --fx2: 8px; }
+:root[data-theme^="tui386"] .tui386-table-striped tbody > tr:nth-child(odd) > *,
+:root[data-theme^="tui386"] .table-striped tbody > tr:nth-child(odd) > * {
+		--fill: var(--tui386-inset);
+	}
+:root[data-theme^="tui386"] .tui386-table-hover tbody > tr:hover > *,
+:root[data-theme^="tui386"] .table-hover tbody > tr:hover > * {
+		--fill: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-progress,
+:root[data-theme^="tui386"] .progress {
+		height: 16px;
+		margin-bottom: 16px;
+		background: var(--tui386-dither);
+		overflow: hidden;
+	}
+:root[data-theme^="tui386"] .tui386-progress-bar,
+:root[data-theme^="tui386"] .progress-bar {
+		height: 100%;
+		background: var(--tui386-white);
+		color: var(--tui386-black);
+		text-align: center;
+		white-space: nowrap;
+		transition: width 0.4s steps(10, end);
+	}
+:root[data-theme^="tui386"] .tui386-progress-bar-success { background: var(--tui386-bright-green); }
+:root[data-theme^="tui386"] .tui386-progress-bar-danger { background: var(--tui386-bright-red); }
+:root[data-theme^="tui386"] .tui386-progress-bar-info { background: var(--tui386-bright-cyan); }
+:root[data-theme^="tui386"] .tui386-progress-bar-warning { background: var(--tui386-yellow); }
+:root[data-theme^="tui386"] .tui386-modal,
+:root[data-theme^="tui386"] .modal-content {
+		position: fixed;
+		inset: 0;
+		margin: auto;
+		width: min(560px, calc(100vw - 48px));
+		height: fit-content;
+		max-height: calc(100vh - 48px);
+		overflow: visible;
+		
+		--window-bg: var(--tui386-silver);
+		background: var(--window-bg);
+		color: var(--tui386-black);
+		border: 0;
+		padding: 0;
+		box-shadow: var(--tui386-shadow);
+	}
+:root[data-theme^="tui386"] .tui386-modal::backdrop,
+:root[data-theme^="tui386"] .modal-content::backdrop {
+		background: rgb(0 0 0 / 0.8);
+	}
+:root[data-theme^="tui386"] .tui386-modal h1,
+:root[data-theme^="tui386"] .tui386-modal h2,
+:root[data-theme^="tui386"] .tui386-modal h3,
+:root[data-theme^="tui386"] .tui386-modal h4,
+:root[data-theme^="tui386"] .modal-content h1,
+:root[data-theme^="tui386"] .modal-content h2,
+:root[data-theme^="tui386"] .modal-content h3,
+:root[data-theme^="tui386"] .modal-content h4 { color: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-modal .tui386-btn:not(:hover, :focus-visible),
+:root[data-theme^="tui386"] .modal-content .btn:not(:hover, :focus-visible) { --btn-bg: var(--tui386-green); }
+:root[data-theme^="tui386"] .tui386-modal .tui386-btn,
+:root[data-theme^="tui386"] .modal-content .btn { --btn-fg: var(--tui386-white); }
+:root[data-theme^="tui386"] .tui386-modal .tui386-btn-primary:not(:hover, :focus-visible),
+:root[data-theme^="tui386"] .modal-content .btn-primary:not(:hover, :focus-visible) { --btn-bg: var(--tui386-bright-green); }
+:root[data-theme^="tui386"] .tui386-modal .tui386-btn-primary,
+:root[data-theme^="tui386"] .modal-content .btn-primary { --btn-fg: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-modal-header,
+:root[data-theme^="tui386"] .modal-header {
+		padding: 0 8px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: center;
+		background: var(--tui386-white);
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-modal-body:focus-visible,
+:root[data-theme^="tui386"] .modal-body:focus-visible { outline: 0; }
+:root[data-theme^="tui386"] .tui386-modal-body,
+:root[data-theme^="tui386"] .modal-body {
+		max-height: calc(100vh - 160px);
+		padding: 16px 8px 0;
+		overflow-y: auto;
+	}
+:root[data-theme^="tui386"] .tui386-modal-body > :last-child,
+:root[data-theme^="tui386"] .modal-body > :last-child { margin-bottom: 0; }
+:root[data-theme^="tui386"] .tui386-modal-footer,
+:root[data-theme^="tui386"] .modal-footer {
+		
+		margin: 16px 0 0;
+		padding: 0 8px;
+		text-align: center;
+	}
+:root[data-theme^="tui386"] .tui386-shade { background: var(--tui386-dither); }
+:root[data-theme^="tui386"] .tui386-close::before { content: "[\00D7]"; }
+:root[data-theme^="tui386"] .tui386-close {
+		float: right;
+		background: none;
+		border: 0;
+		color: inherit;
+		font: inherit;
+		cursor: default;
+	}
+:root[data-theme^="tui386"] .tui386-close:hover { background: var(--tui386-white); color: var(--tui386-black); }
+:root[data-theme^="tui386"] .tui386-breadcrumb,
+:root[data-theme^="tui386"] .breadcrumb {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 16px;
+		padding: 0;
+		list-style: none;
+		background: var(--tui386-silver);
+		color: var(--tui386-black);
+	}
+:root[data-theme^="tui386"] .tui386-breadcrumb > li,
+:root[data-theme^="tui386"] .breadcrumb > li {
+		padding: 0 8px;
+	}
+:root[data-theme^="tui386"] .tui386-breadcrumb > li + li::before,
+:root[data-theme^="tui386"] .breadcrumb > li + li::before {
+		content: "\00BB ";
+		color: var(--tui386-gray);
+	}
+:root[data-theme^="tui386"] .tui386-breadcrumb a,
+:root[data-theme^="tui386"] .breadcrumb a { color: var(--tui386-blue); }
+:root[data-theme^="tui386"] .tui386-breadcrumb a:hover,
+:root[data-theme^="tui386"] .breadcrumb a:hover { background: var(--tui386-blue); color: var(--tui386-silver); }
+:root[data-theme^="tui386"] .tui386-cursor-block {
+		display: inline-block;
+		width: 8px;
+		height: 16px;
+		vertical-align: bottom;
+		background: var(--tui386-silver);
+		animation: tui386-blink 1s steps(1, end) infinite;
+	}
+
+#tui386-boot-wrap {
+	position: fixed;
+	z-index: 2147483000;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--tui386-bg);
+	overflow: hidden;
+}
+:root[data-theme^="tui386"] #tui386-boot-bar {
+	float: right;
+	width: 100%;
+	height: 16px;
+	margin-top: -16px;
+	color: var(--tui386-white);
+	background: var(--tui386-bg);
+	line-height: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+:root[data-theme^="tui386"] #tui386-boot-cursor {
+	position: fixed;
+	z-index: 2147483000;
+	right: 0;
+	bottom: 0;
+	width: 8px;
+	height: 16px;
+	line-height: 16px;
+	color: var(--tui386-white);
+}
+:root[data-theme^="tui386"] .tui386-cursor {
+	position: absolute;
+	z-index: 2147483001;
+	width: 8px;
+	height: 14px;
+	background: #cbd448;
+	mix-blend-mode: difference;
+	pointer-events: none;
+}
+:root[data-theme^="tui386"].tui386-cursor-on,
+:root[data-theme^="tui386"].tui386-cursor-on * {
+	cursor: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+:root[data-theme^="tui386"] .tui386-cursor-block { animation: none; }
+:root[data-theme^="tui386"] .tui386-progress-bar,
+:root[data-theme^="tui386"] .progress-bar { transition: none; }
+
+}
+@keyframes tui386-unhide {
+	to { visibility: visible; }
+}
+@keyframes tui386-blink {
+	50% { opacity: 0; }
+}
+
+
+:root[data-theme^="tui386"] :is(.dropdown, .dropup, .dropend, .dropstart, .btn-group) > .dropdown-menu:not(.show) { display: none; }
+:root[data-theme^="tui386"] :is(.dropdown, .dropup, .dropend, .dropstart, .btn-group) > .dropdown-menu.show { display: block; position: absolute; z-index: 1000; }
+:root[data-theme^="tui386"] :is(.dropdown, .dropup, .dropend, .dropstart, .btn-group) { position: relative; }
+:root[data-theme^="tui386"] legend { float: none; width: auto; }
+:root[data-theme^="tui386"] .nav-tabs .nav-link { border: 0; margin-bottom: 0; }
+:root[data-theme^="tui386"] .table > :not(caption) > * { border: 0; }
+:root[data-theme^="tui386"] { --tui386-sb-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M3 5h2v2H3zM2 7h4v2H2zM1 9h6v2H1z'/%3E%3C/svg%3E"); --tui386-sb-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' shape-rendering='crispEdges'%3E%3Cpath d='M1 5h6v2H1zM2 7h4v2H2zM3 9h2v2H3z'/%3E%3C/svg%3E"); --tui386-sb-hide: none; }
+::-webkit-scrollbar-button:vertical:start:decrement { background-image: var(--tui386-sb-up); }
+::-webkit-scrollbar-button:vertical:end:increment { background-image: var(--tui386-sb-down); }
+::-webkit-scrollbar-button:vertical:start:increment,
+::-webkit-scrollbar-button:vertical:end:decrement,
+::-webkit-scrollbar-button:horizontal { display: var(--tui386-sb-hide); }

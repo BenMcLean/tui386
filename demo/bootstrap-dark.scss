@@ -1,0 +1,6 @@
+// Entry point for the Bootstrap demo page only (black screen). Sass bakes colors in
+// at compile time, so the dark theme is a second stylesheet.
+@import "bootstrap/scss/functions";
+$tui386-font-path: "../fonts";
+@import "../src/bootstrap-dark";
+@import "bootstrap/scss/bootstrap";

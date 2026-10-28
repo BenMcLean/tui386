@@ -1,0 +1,4 @@
+// TUI386.css - Bootstrap 5.3 adapter, dark screen (gray on black). Use it in place of
+// tui386/bootstrap; see that file for how the two fit around Bootstrap's own imports.
+$tui386-theme: dark;
+@import "bootstrap";

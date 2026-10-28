@@ -1,0 +1,17 @@
+node_modules/
+site/
+parity/
+*.tgz
+
+# editors / OS
+.vs/
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# env / logs
+.env
+.env.*
+npm-debug.log*

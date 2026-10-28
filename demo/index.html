@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" data-framework="tailwind">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TUI386.css</title>
+	<script>document.documentElement.classList.add('tui386-boot')</script>
+	<link rel="stylesheet" href="css/tailwind.css">
+	<link rel="stylesheet" href="demo.css">
+	<script src="demo.js"></script>
+</head>
+<body>
+
+<nav class="tui386-navbar">
+	<a class="tui386-navbar-brand" href="#">TUI386.css</a>
+	<a href="#type" class="active demo-section">Type</a>
+	<a href="#buttons" class="demo-section">Buttons</a>
+	<a href="#forms" class="demo-section">Forms</a>
+	<a href="#parts" class="demo-section">Components</a>
+	<a href="#palette" class="demo-section">Palette</a>
+	<a href="index.html" data-switch="tailwind" class="ml-auto">Tailwind</a>
+	<a href="unocss.html" data-switch="unocss">UnoCSS</a>
+	<a href="daisyui.html" data-switch="daisyui">daisyUI</a>
+	<a href="bootstrap.html" data-switch="bootstrap">Bootstrap</a>
+	<a href="#" id="theme-toggle">Theme</a>
+</nav>
+
+<main class="max-w-[1152px] mx-auto px-2">
+
+<div class="tui386-window mt-2">
+	<h1 class="tui386-window-title">TUI386.css</h1>
+	<p class="mb-0 text-center text-white">The Definitive All-in-one Graphical Tool-Kit for Micros and Terminals, now in plain CSS.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+	<p>Every screen is a grid of 8x16 pixel character cells. One spacing unit is
+	one column, two are one row. <code>mb-2</code> is a blank line and
+	<code>px-1</code> is a space.</p>
+	<p>Use primitives like <mark>buttons</mark>, windows and menus. We handle
+	rendering these abstractions on screen for you. GUI is Good.</p>
+</div>
+
+<div class="tui386-window tui386-window-cyan mt-2">
+<h2 class="tui386-window-title">About this demo</h2>
+<p>TUI386.css makes webpages look like 1980s DOS text-mode programs: the sixteen EGA colors, a bitmap font, square corners, no shadows or blur. It works as plain CSS, and has adapters for Tailwind, UnoCSS, daisyUI and Bootstrap.</p>
+<p>This demo is one page written four times, each in that framework's own classes. You are viewing the <b data-current>Tailwind</b> version; the framework links in the menu bar switch between them, and nothing on screen should change.</p>
+<p>Source and docs: <a href="https://github.com/BenMcLean/tui386">github.com/BenMcLean/tui386</a>. Package: <a href="https://www.npmjs.com/package/tui386">npmjs.com/package/tui386</a>. Install with <code>npm install tui386</code>.</p>
+</div>
+
+<h2 id="type" class="tui386-banner mt-2">Type</h2>
+<p>Headings are all the same size. <b>Bold</b> is white, <i>italic</i> is cyan,
+<a href="#type">links are yellow</a> and invert on hover. Press <kbd>Alt</kbd><kbd>F4</kbd> to quit.</p>
+<blockquote>Think of your software in terms of Windows, Icons, Menus, and Pull-Downs.</blockquote>
+<ul><li>Lists are indented three columns</li><li>Nothing is rounded</li><li>Nothing has a blur</li></ul>
+
+<h2 id="buttons" class="tui386-banner mt-2">Buttons</h2>
+<div class="mb-2">
+	<button class="tui386-btn">Default</button>
+	<button class="tui386-btn tui386-btn-primary">Primary</button>
+	<button class="tui386-btn tui386-btn-success">Success</button>
+	<button class="tui386-btn tui386-btn-info">Info</button>
+	<button class="tui386-btn tui386-btn-warning">Warning</button>
+	<button class="tui386-btn tui386-btn-danger">Danger</button>
+	<button class="tui386-btn" disabled>Disabled</button>
+</div>
+<div class="mb-2">
+	<button class="tui386-btn" onclick="document.getElementById('dlg').showModal()">Open a modal</button>
+	<span class="tui386-label">label</span>
+	<span class="tui386-label tui386-label-success">ok</span>
+	<span class="tui386-label tui386-label-danger">fail</span>
+	<span class="tui386-badge">42</span>
+</div>
+
+<h2 id="forms" class="tui386-banner mt-2">Forms</h2>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-x-4" onsubmit="return false">
+	<fieldset>
+		<legend>Login</legend>
+		<label class="tui386-field-label" for="u">Username</label>
+		<input id="u" class="tui386-input" placeholder="guest">
+		<label class="tui386-field-label" for="p">Password</label>
+		<input id="p" class="tui386-input" type="password" value="hunter2">
+		<label class="tui386-field-label" for="s">Disk</label>
+		<select id="s" class="tui386-select"><option>A:</option><option>B:</option><option>C:</option></select>
+		<label class="tui386-field-label" for="t">Notes</label>
+		<textarea id="t" class="tui386-textarea w-full" rows="3">Dear diary, today I upgraded to 640K.</textarea>
+	</fieldset>
+	<fieldset>
+		<legend>Options</legend>
+		<label class="block"><input type="checkbox" class="tui386-check" checked>Sound Blaster</label>
+		<label class="block"><input type="checkbox" class="tui386-check">Mouse driver</label>
+		<label class="block mb-2"><input type="checkbox" class="tui386-check" disabled>Math coprocessor</label>
+		<label class="block"><input type="radio" name="g" class="tui386-radio" checked>CGA</label>
+		<label class="block"><input type="radio" name="g" class="tui386-radio">EGA</label>
+		<label class="block mb-2"><input type="radio" name="g" class="tui386-radio">VGA</label>
+		<label class="tui386-field-label">Volume</label>
+		<input type="range" class="tui386-range" value="40">
+		<button class="tui386-btn tui386-btn-primary">Save</button>
+		<button class="tui386-btn">Cancel</button>
+	</fieldset>
+</form>
+
+<h2 id="parts" class="tui386-banner mt-2">Components</h2>
+
+<div class="tui386-alert tui386-alert-success"><p class="tui386-alert-title">Well done.</p>Your file was copied successfully.</div>
+<div class="tui386-alert"><p class="tui386-alert-title">Warning.</p>Insert disk in drive A: and press any key.</div>
+<div class="tui386-alert tui386-alert-danger"><p class="tui386-alert-title">Abort, Retry, Fail?</p>General failure reading drive C:.</div>
+<div class="tui386-alert tui386-alert-info"><p class="tui386-alert-title">Tip.</p>Try <a href="#parts">turning it off and on again</a>.</div>
+
+<div class="tui386-menubar">
+	<details name="menubar">
+		<summary>File</summary>
+		<ul class="tui386-menu">
+			<li><a href="#parts">New</a></li>
+			<li><a href="#parts">Open...</a></li>
+			<li><a href="#parts">Save</a></li>
+			<li><hr class="tui386-menu-divider"></li>
+			<li><a href="#parts">Exit</a></li>
+		</ul>
+	</details>
+	<details name="menubar">
+		<summary>Edit</summary>
+		<ul class="tui386-menu">
+			<li><a href="#parts">Cut</a></li>
+			<li><a href="#parts">Copy</a></li>
+			<li><a href="#parts">Paste</a></li>
+		</ul>
+	</details>
+	<details name="menubar">
+		<summary>Search</summary>
+		<ul class="tui386-menu">
+			<li><a href="#parts">Find...</a></li>
+			<li><a href="#parts">Replace...</a></li>
+		</ul>
+	</details>
+	<details name="menubar">
+		<summary>Help</summary>
+		<ul class="tui386-menu">
+			<li><a href="#parts">Contents</a></li>
+			<li><hr class="tui386-menu-divider"></li>
+			<li><a href="#parts">About...</a></li>
+		</ul>
+	</details>
+</div>
+
+<ul class="tui386-tabs">
+	<li><a class="tui386-tab active" href="#parts">Source</a></li>
+	<li><a class="tui386-tab" href="#parts">Output</a></li>
+	<li><a class="tui386-tab" href="#parts">Watch</a></li>
+</ul>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-x-4 items-start">
+	<div class="tui386-window">
+		<h3 class="tui386-window-title">Window</h3>
+		A 4px double white line, with the title on the top line. No shadow.
+	</div>
+	<div class="tui386-window tui386-window-cyan">
+		<h3 class="tui386-window-title">Cyan</h3>
+		The same, in cyan.
+	</div>
+	<ul class="tui386-menu">
+		<li><span class="tui386-menu-header">File</span></li>
+		<li><a href="#parts" class="active">New</a></li>
+		<li><a href="#parts">Open...</a></li>
+		<li><hr class="tui386-menu-divider"></li>
+		<li><a href="#parts">Exit</a></li>
+	</ul>
+</div>
+
+<ol class="tui386-breadcrumb">
+	<li><a href="#">C:</a></li><li><a href="#">DOS</a></li><li>COMMAND.COM</li>
+</ol>
+
+<table class="tui386-table tui386-table-bordered tui386-table-hover">
+	<thead><tr><th>Name</th><th>Size</th><th>Date</th></tr></thead>
+	<tbody>
+		<tr><td>AUTOEXEC.BAT</td><td>412</td><td>01-15-90</td></tr>
+		<tr><td>COMMAND.COM</td><td>25,307</td><td>03-22-87</td></tr>
+		<tr><td>CONFIG.SYS</td><td>173</td><td>01-15-90</td></tr>
+	</tbody>
+</table>
+
+<p>Copying...</p>
+<div class="tui386-progress"><div class="tui386-progress-bar" style="width: 60%"></div></div>
+<p>C:\&gt; <span class="tui386-cursor-block"></span></p>
+
+<h2 id="palette" class="tui386-banner mt-2">Palette</h2>
+<p>The sixteen EGA colors, as utilities:</p>
+<div class="grid grid-cols-4 md:grid-cols-8 gap-x-1 mb-2">
+	<div class="bg-black text-white">black</div>
+	<div class="bg-blue text-white">blue</div>
+	<div class="bg-green text-black">green</div>
+	<div class="bg-cyan text-black">cyan</div>
+	<div class="bg-red text-white">red</div>
+	<div class="bg-magenta text-white">magenta</div>
+	<div class="bg-brown text-white">brown</div>
+	<div class="bg-silver text-black">silver</div>
+	<div class="bg-gray text-white">gray</div>
+	<div class="bg-bright-blue text-black">br-blue</div>
+	<div class="bg-bright-green text-black">br-green</div>
+	<div class="bg-bright-cyan text-black">br-cyan</div>
+	<div class="bg-bright-red text-black">br-red</div>
+	<div class="bg-bright-magenta text-black">br-mag</div>
+	<div class="bg-yellow text-black">yellow</div>
+	<div class="bg-white text-black">white</div>
+</div>
+
+<footer class="mt-2 mb-2 text-silver">
+	<hr>
+	Font: Px437 IBM EGA 8x14 by VileR (CC BY-SA 4.0), int10h.org. Successor to BOOTSTRA.386.
+</footer>
+</main>
+
+<dialog id="dlg" class="tui386-modal">
+	<div class="tui386-modal-header">System</div>
+	<div class="tui386-modal-body">
+	<p>This is a native &lt;dialog&gt;. It does not need any JavaScript framework.</p>
+	</div>
+	<form method="dialog" class="tui386-modal-footer">
+		<button class="tui386-btn tui386-btn-primary">OK</button>
+		<button class="tui386-btn" value="cancel">Cancel</button>
+	</form>
+</dialog>
+
+<script src="dist/tui386.js"></script>
+<script>
+	TUI386.menus()
+	TUI386.boot({ fastLoad: DEMO.fast || DEMO.switched })
+</script>
+</body>
+</html>

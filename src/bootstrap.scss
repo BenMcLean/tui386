@@ -1,0 +1,251 @@
+// TUI386.css - Bootstrap 5.3 adapter (Sass).
+//
+//   // your-bootstrap.scss
+//   @import "bootstrap/scss/functions";
+//   $tui386-font-path: "../node_modules/tui386/fonts"; // where the font lives, relative to the CSS you output
+//   @import "tui386/src/bootstrap";
+//   @import "bootstrap/scss/bootstrap";
+//
+// Sass bakes colors in at compile time, so there is one screen per build: this file is the
+// light (blue) one, and tui386/bootstrap-dark is the black one. For both on one page,
+// compile twice and switch stylesheets.
+//
+// Compile with `sass --load-path=node_modules your-bootstrap.scss out.css`.
+//
+// Bootstrap's compiled CSS hardcodes its brand colors in a hundred places, so the
+// only way to re-theme it fully is to change its Sass variables before it is
+// built. That is what this does, and nothing else. Bootstrap's own variables use
+// !default, so anything you set before importing this file wins over it.
+//
+// Sass needs real color values (it mixes and tints them), so these repeat the
+// numbers from tokens.css.
+
+$tui386-font-path: "../fonts" !default;
+$tui386-theme: light !default; // light | dark
+
+@font-face {
+	font-family: "DOS";
+	src: url("#{$tui386-font-path}/Px437_IBM_EGA8.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+// The sixteen EGA colors
+$black: #000000;
+$blue: #0000aa;
+$green: #00aa00;
+$cyan: #00aaaa;
+$red: #aa0000;
+$magenta: #aa00aa;
+$brown: #aa5500;
+$silver: #aaaaaa;
+$gray: #555555;
+$bright-blue: #5555ff;
+$bright-green: #55ff55;
+$bright-cyan: #55ffff;
+$bright-red: #ff5555;
+$bright-magenta: #ff55ff;
+$yellow: #ffff55;
+$white: #ffffff;
+
+$primary: $yellow;
+$secondary: $silver;
+$success: $bright-green;
+$info: $bright-cyan;
+$warning: $brown;
+$danger: $red;
+$light: $silver;
+$dark: $black;
+
+// The screen: $tui386-bg is the page and its windows, $tui386-inset is code and stripes
+$tui386-bg: if($tui386-theme == dark, $black, $blue);
+$tui386-inset: if($tui386-theme == dark, $blue, $black);
+
+// One screen per build, so Bootstrap's own light/dark switch stays off
+$enable-dark-mode: false;
+$body-bg: $tui386-bg;
+$body-color: $silver;
+$emphasis-color: $white;
+$headings-color: $white;
+$link-color: $yellow;
+$link-hover-color: $tui386-bg;
+$border-color: $silver;
+$border-width: 2px;
+$code-color: $bright-green;
+$kbd-color: $black;
+$kbd-bg: $silver;
+$mark-color: $black;
+$mark-bg: $yellow;
+$blockquote-footer-color: $bright-cyan;
+$focus-ring-color: $yellow;
+$focus-ring-opacity: 1;
+$focus-ring-width: 2px;
+$input-bg: $silver;
+$input-color: $black;
+$input-disabled-bg: $gray;
+$input-disabled-color: $silver;
+$input-placeholder-color: $gray;
+$input-group-addon-bg: $silver;
+$input-group-addon-color: $black;
+$form-select-indicator-color: $black;
+$input-border-color: $silver;
+$input-focus-bg: $white;
+$input-focus-color: $black;
+$input-focus-border-color: $white;
+$card-bg: $tui386-bg;
+$card-border-color: $white;
+$card-cap-bg: transparent;
+$card-cap-color: $white;
+$table-color: $silver;
+$table-striped-bg: $tui386-inset;
+$modal-content-bg: $silver;
+$modal-content-color: $black;
+$modal-content-border-color: $black;
+$modal-header-border-color: $black;
+$modal-footer-border-color: $black;
+$dropdown-bg: $silver;
+$dropdown-color: $black;
+$dropdown-link-color: $black;
+$dropdown-border-color: $black;
+$dropdown-divider-bg: $black;
+$dropdown-link-hover-bg: $black;
+$dropdown-link-hover-color: $silver;
+$dropdown-link-active-bg: $cyan;
+$dropdown-link-active-color: $white;
+$dropdown-header-color: $gray;
+$list-group-bg: $tui386-bg;
+$progress-bg: $gray;
+$progress-bar-bg: $white;
+$progress-bar-color: $black;
+$table-hover-bg: $silver;
+$table-hover-color: $black;
+$component-active-color: $blue;
+$nav-tabs-link-active-bg: $tui386-bg;
+$nav-tabs-link-active-color: $white;
+$nav-tabs-border-color: $silver;
+$nav-tabs-link-active-border-color: $silver $silver $tui386-bg;
+$breadcrumb-divider-color: $gray;
+
+// Alerts and table variants are solid fills, like .tui386-alert-*
+$primary-text-emphasis: $black;
+$primary-bg-subtle: $yellow;
+$primary-border-subtle: $yellow;
+$secondary-text-emphasis: $black;
+$secondary-bg-subtle: $silver;
+$secondary-border-subtle: $silver;
+$success-text-emphasis: $white;
+$success-bg-subtle: $green;
+$success-border-subtle: $green;
+$info-text-emphasis: $black;
+$info-bg-subtle: $cyan;
+$info-border-subtle: $cyan;
+$warning-text-emphasis: $white;
+$warning-bg-subtle: $brown;
+$warning-border-subtle: $brown;
+$danger-text-emphasis: $white;
+$danger-bg-subtle: $red;
+$danger-border-subtle: $red;
+$light-text-emphasis: $black;
+$light-bg-subtle: $silver;
+$light-border-subtle: $silver;
+$dark-text-emphasis: $white;
+$dark-bg-subtle: $black;
+$dark-border-subtle: $silver;
+
+$gray-100: $white;
+$gray-200: $silver;
+$gray-300: $silver;
+$gray-400: $silver;
+$gray-500: $gray;
+$gray-600: $gray;
+$gray-700: $gray;
+$gray-800: $black;
+$gray-900: $black;
+
+$navbar-light-color: $silver;
+$navbar-light-hover-color: $white;
+$navbar-light-active-color: $white;
+$navbar-light-disabled-color: $gray;
+$navbar-light-brand-color: $white;
+$navbar-light-brand-hover-color: $yellow;
+$form-select-disabled-bg: $gray;
+
+// No curves, no gradients, no blur
+$enable-rounded: false;
+$enable-shadows: false;
+$enable-gradients: false;
+$enable-transitions: false;
+$border-radius: 0;
+$border-radius-sm: 0;
+$border-radius-lg: 0;
+$border-radius-xl: 0;
+$border-radius-xxl: 0;
+$border-radius-pill: 0;
+
+// One type size, one weight
+$font-family-base: "DOS", Monaco, Menlo, Consolas, "Courier New", monospace;
+$font-family-monospace: $font-family-base;
+$font-size-base: 1rem;
+$line-height-base: 1;
+$headings-line-height: 1;
+$headings-margin-bottom: 1rem;
+$font-weight-lighter: normal;
+$font-weight-light: normal;
+$font-weight-normal: normal;
+$font-weight-semibold: normal;
+$font-weight-bold: normal;
+$font-weight-bolder: normal;
+$headings-font-weight: normal;
+$h1-font-size: 1rem;
+$h2-font-size: 1rem;
+$h3-font-size: 1rem;
+$h4-font-size: 1rem;
+$h5-font-size: 1rem;
+$h6-font-size: 1rem;
+$display-font-sizes: (1: 1rem, 2: 1rem, 3: 1rem, 4: 1rem, 5: 1rem, 6: 1rem);
+$display-font-weight: normal;
+$lead-font-size: 1rem;
+$lead-font-weight: normal;
+$small-font-size: 1rem;
+$legend-font-size: 1rem;
+$legend-font-weight: normal;
+$badge-font-size: 1em;
+$badge-font-weight: normal;
+$btn-font-weight: normal;
+$nav-link-font-size: 1rem;
+$form-label-font-size: 1rem;
+
+body {
+	font-synthesis: none;
+	font-kerning: none;
+	font-variant-ligatures: none;
+	-webkit-font-smoothing: none;
+	text-rendering: optimizeSpeed;
+}
+
+b, strong, th {
+	color: $white;
+}
+
+em, i, cite, dfn, var {
+	color: $bright-cyan;
+}
+
+// A plain link inverts on hover; buttons and nav items keep Bootstrap's own states
+a:not([class]):hover,
+a:not([class]):focus-visible {
+	background-color: $yellow;
+	color: $tui386-bg;
+}
+
+::selection {
+	background: $silver;
+	color: $black;
+}
+
+// Headings default to white, which vanishes on the silver panels
+.modal-content,
+.dropdown-menu {
+	--bs-heading-color: #{$black};
+}
