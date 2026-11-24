@@ -37,9 +37,9 @@
     "./js": "./dist/tui386.js"
   },
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "prepack": "node scripts/build.mjs",
-    "build:demo": "node scripts/build.mjs && node scripts/build-demo.mjs",
+    "build": "node scripts/build.mjs && node scripts/minify.mjs",
+    "prepack": "npm run build",
+    "build:demo": "npm run build && node scripts/build-demo.mjs",
     "check:parity": "node scripts/check-parity.mjs",
     "serve": "node scripts/serve.mjs",
     "lint": "node scripts/check-indent.mjs"
@@ -49,9 +49,11 @@
     "@unocss/cli": "66.12.0",
     "bootstrap": "5.3.9",
     "daisyui": "5.7.50",
+    "lightningcss": "1.33.0",
     "pixelmatch": "8.0.0",
     "playwright": "1.65.1",
     "pngjs": "7.0.0",
+    "rolldown": "1.2.15",
     "sass": "1.108.2",
     "tailwindcss": "4.3.5",
     "unocss": "66.12.0"

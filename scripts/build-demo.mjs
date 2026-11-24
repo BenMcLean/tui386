@@ -13,10 +13,13 @@ const run = cmd => execSync(cmd, { stdio: 'inherit' })
 fs.rmSync('site', { recursive: true, force: true })
 for (const d of ['css', 'dist', 'fonts']) fs.mkdirSync(`site/${d}`, { recursive: true })
 
-fs.copyFileSync('dist/tui386.css', 'site/dist/tui386.css')
-fs.copyFileSync('dist/bootstrap.css', 'site/css/bootstrap-tui386.css')
+// MIN=1 swaps in the .min files. The Tailwind page has no .min (it builds from the source), so
+// check-parity then compares the minified UnoCSS, Bootstrap and tui386.js pages against it.
+const min = process.env.MIN ? '.min' : ''
+fs.copyFileSync(`dist/tui386${min}.css`, 'site/dist/tui386.css')
+fs.copyFileSync(`dist/bootstrap${min}.css`, 'site/css/bootstrap-tui386.css')
 fs.copyFileSync('demo/layout.css', 'site/css/layout.css')
-fs.copyFileSync('dist/tui386.js', 'site/dist/tui386.js')
+fs.copyFileSync(`dist/tui386${min}.js`, 'site/dist/tui386.js')
 fs.copyFileSync('fonts/Px437_IBM_EGA8.otf', 'site/fonts/Px437_IBM_EGA8.otf')
 fs.copyFileSync('demo/demo.js', 'site/demo.js')
 fs.copyFileSync('demo/demo.css', 'site/demo.css')

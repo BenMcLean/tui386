@@ -12,10 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # create the GitHub release
-      id-token: write
+      id-token: write # npm trusted publishing and the tarball attestation
+      attestations: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
@@ -28,7 +29,37 @@ jobs:
         run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version
       - run: npm pack
       - run: npm publish --provenance --access public
+      # Sign the tarball that goes on the release page (npm already attests its own copy).
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: ./*.tgz
+      # SRI hashes of the linkable files in the package (.min first: that's what sites serve), for <link integrity="..."> via a CDN that serves
+      # npm files unmodified (jsDelivr, unpkg). Goes in the release notes and as sri.json.
+      - name: Compute SRI hashes
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          {
+            echo '## Subresource Integrity'
+            echo
+            echo 'Hashes for the files in this version, for use as `integrity="..."` with `crossorigin="anonymous"`:'
+            echo
+            echo '| File | Integrity |'
+            echo '| --- | --- |'
+          } > sri.md
+          : > sri.tsv
+          for f in dist/{tui386,bootstrap}.min.css dist/tui386.min.js dist/{tui386,bootstrap}.css dist/tui386.js; do
+            h="sha384-$(openssl dgst -sha384 -binary "$f" | openssl base64 -A)"
+            echo "| \`$f\` | \`$h\` |" >> sri.md
+            printf '%s\t%s\n' "$f" "$h" >> sri.tsv
+          done
+          jq -Rn '[inputs | split("\t") | {(.[0]): .[1]}] | add' sri.tsv > sri.json
+          {
+            echo
+            echo "Example: \`https://cdn.jsdelivr.net/npm/tui386@$v/dist/tui386.min.css\`"
+            echo
+          } >> sri.md
+          cat sri.md
       - name: Create GitHub release
-        run: gh release create "$GITHUB_REF_NAME" ./*.tgz --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" ./*.tgz sri.json --notes-file sri.md --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}
