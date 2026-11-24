@@ -38,10 +38,10 @@ release touches only the adapters.
 
 ## Use it
 
-Any site, no build step:
+Any site, no build step (`dist/` is built on publish and is not in the git repo, so load it from npm via a CDN, or run `npm run build` in a clone):
 
 ```html
-<link rel="stylesheet" href="dist/tui386.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tui386/dist/tui386.css">
 ```
 
 Tailwind v4:

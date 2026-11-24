@@ -5,7 +5,8 @@ import fs from 'node:fs'
 import { alias } from './alias-css.mjs'
 import * as aliases from './aliases.mjs'
 fs.mkdirSync('dist', { recursive: true })
-const read = f => fs.readFileSync(`src/${f}`, 'utf8')
+// CRLF is normalized so the regex edits below behave the same on every OS
+const read = f => fs.readFileSync(`src/${f}`, 'utf8').replace(/\r\n/g, '\n')
 
 fs.writeFileSync('dist/tui386.css', read('tokens.css') + '\n' + read('components.css'))
 // Tailwind's CLI and PostCSS plugin paste imported CSS into the output without

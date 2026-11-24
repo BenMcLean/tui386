@@ -2,7 +2,10 @@
 # compares each page with the Tailwind one, in light and dark. They are the same screen in
 # different classes, so a bump (or a change) that breaks an adapter fails here, not months later.
 name: build
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
