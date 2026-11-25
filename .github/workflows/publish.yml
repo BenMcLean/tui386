@@ -10,6 +10,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write # create the GitHub release
       id-token: write # npm trusted publishing and the tarball attestation

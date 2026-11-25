@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -16,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build:demo
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps --only-shell chromium
       - run: npm run check:parity
       # again with the .min files, which are what a CDN serves: the minified pages must match too
       - run: MIN=1 npm run build:demo
