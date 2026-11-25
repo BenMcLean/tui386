@@ -1,4 +1,4 @@
-# Publishes to npm and creates a GitHub release (with the npm tarball attached) when a version tag (v1.2.3) is pushed. The version comes from the
+# Publishes to npm and creates a GitHub release (with the npm tarball attached) when a version tag (v1.2.3) is pushed, then deploys the demo site (pages.yml). The version comes from the
 # tag; package.json in the repo keeps a placeholder and is never committed to.
 # Uses npm trusted publishing (OIDC), so there is no NPM_TOKEN secret to store or leak.
 # One-time setup on npmjs.com: package settings > Trusted Publisher > GitHub Actions,
@@ -64,3 +64,11 @@ jobs:
         run: gh release create "$GITHUB_REF_NAME" ./*.tgz sri.json --notes-file sri.md --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}
+  # The demo site, only once everything above has succeeded.
+  pages:
+    needs: publish
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml

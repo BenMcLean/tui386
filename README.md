@@ -140,7 +140,7 @@ npm run check:parity # screenshots the four pages and fails if any differs from 
 npm run serve        # http://localhost:8386/ serves site/
 ```
 
-`demo/` holds the page sources. `site/` is generated and is deployed to GitHub Pages by `.github/workflows/pages.yml` when a version tag is pushed. Add `?fast` to a demo URL to skip the boot animation.
+`demo/` holds the page sources. `site/` is generated and is deployed to GitHub Pages by `.github/workflows/pages.yml` after a version tag is released successfully. Add `?fast` to a demo URL to skip the boot animation.
 
 ## Not ported (yet)
 
