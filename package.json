@@ -56,7 +56,7 @@
     "rolldown": "1.2.15",
     "sass": "1.108.2",
     "tailwindcss": "4.3.5",
-    "unocss": "66.12.0"
+    "unocss": "66.13.0"
   },
   "license": "Apache-2.0"
 }
