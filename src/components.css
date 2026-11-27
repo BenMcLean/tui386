@@ -59,6 +59,11 @@
 	blockquote, figure, dd {
 		margin-inline: 0;
 	}
+	/* Components set display, which would otherwise show a hidden element. It is
+		 !important so that no later layer's display can win over it. */
+	[hidden]:where(:not([hidden="until-found"])) {
+		display: none !important;
+	}
 
 	p, ul, ol, dl, pre, blockquote, table, figure, form, fieldset {
 		margin-top: 0;
@@ -117,7 +122,6 @@
 	code, samp {
 		background: var(--tui386-inset);
 		color: var(--tui386-bright-green);
-		padding: 0 8px;
 	}
 	kbd {
 		background: var(--tui386-silver);
@@ -134,7 +138,6 @@
 	}
 	pre code {
 		background: none;
-		padding: 0;
 		color: inherit;
 	}
 
@@ -575,6 +578,13 @@
 		display: block;
 		padding: 0 8px;
 		color: var(--tui386-black);
+	}
+	/* a <button> loses the browser's face and border, to match a link. :where() keeps
+		 this weaker than the hover and active colors below */
+	:where(button).tui386-nav-link {
+		border: 0;
+		background: none;
+		cursor: pointer;
 	}
 	.tui386-navbar a::first-letter,
 	.tui386-nav-link::first-letter {
