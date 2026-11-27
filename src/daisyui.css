@@ -136,4 +136,10 @@
 	:root[data-theme^="tui386"] :is(.checkbox, .radio)::after {
 		all: unset;
 	}
+
+	/* daisyUI uppercases footer titles; TUI386 shows text as written. The attribute
+		 selector also catches the responsive ones (sm:footer-title...) */
+	:root[data-theme^="tui386"] [class*="footer-title"] {
+		text-transform: none;
+	}
 }

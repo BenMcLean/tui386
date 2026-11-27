@@ -44,6 +44,7 @@
 	--tui386-fg: var(--tui386-silver);          /* body text */
 	--tui386-inset: var(--tui386-black);        /* code, pre, wells, table stripes */
 	--tui386-shadow-color: var(--tui386-black);
+	--tui386-btn-hover-bg: var(--tui386-gray); /* a hovered or focused button's face */
 
 	/* The only shadow: hard, one column over and one half-row down */
 	--tui386-shadow: 8px 8px 0 0 var(--tui386-shadow-color);
@@ -56,17 +57,20 @@
  * The black screen (the DOS prompt, Norton-style gray-on-black). It follows the
  * OS setting unless the page says data-theme="light"; data-theme="dark" forces it.
  * (tui386 and tui386-dark are the same two screens under daisyUI's theme names.)
- * A black shadow would vanish on black, so it turns gray.
+ * A black shadow would vanish on black, so it turns gray, and hovered buttons turn
+ * blue so that their faces don't merge with it.
  */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"], [data-theme="tui386"]) {
 		--tui386-bg: var(--tui386-black);
 		--tui386-inset: var(--tui386-blue);
 		--tui386-shadow-color: var(--tui386-gray);
+		--tui386-btn-hover-bg: var(--tui386-blue);
 	}
 }
 :root:is([data-theme="dark"], [data-theme="tui386-dark"]) {
 	--tui386-bg: var(--tui386-black);
 	--tui386-inset: var(--tui386-blue);
 	--tui386-shadow-color: var(--tui386-gray);
+	--tui386-btn-hover-bg: var(--tui386-blue);
 }

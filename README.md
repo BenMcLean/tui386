@@ -119,13 +119,14 @@ The JavaScript is entirely optional. Leave out all three snippets above and the 
 
 Two DOS-era screens: the blue of EDIT, QBasic and Turbo Pascal (default), and gray on black like the DOS prompt. The black one follows `prefers-color-scheme: dark`. Force either with `<html data-theme="light">` or `<html data-theme="dark">` (here "light" means the blue one).
 
-The themes only differ in four tokens, so everything else is the same EGA colors in both:
+The themes only differ in a few tokens, so everything else is the same EGA colors in both:
 
 | token | light | dark |
 |---|---|---|
 | `--tui386-bg` | blue | black |
 | `--tui386-inset` (code, pre, wells, table stripes) | black | blue |
 | `--tui386-shadow-color` | black | gray (black would vanish) |
+| `--tui386-btn-hover-bg` (hovered or focused button) | gray | blue (gray would match the shadow) |
 | `--tui386-fg` | silver | silver |
 
 Override any of them to make your own screen. daisyUI gets two themes, `tui386` and `tui386-dark`. Bootstrap picks one per build by importing `bootstrap` or `bootstrap-dark`, and its overlay follows `data-theme="tui386"` or `"tui386-dark"`. Tailwind and UnoCSS need nothing extra: the components follow the tokens.

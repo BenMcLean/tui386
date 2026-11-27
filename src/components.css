@@ -272,7 +272,7 @@
 	.tui386-btn::after  { content: " >"; }
 	.tui386-btn:hover,
 	.tui386-btn:focus-visible {
-		--btn-bg: var(--tui386-gray);
+		--btn-bg: var(--tui386-btn-hover-bg);
 		color: var(--tui386-white);
 		outline: 0;
 	}
@@ -552,7 +552,6 @@
 		padding: 16px;
 		background: var(--tui386-cyan);
 		color: var(--tui386-black);
-		text-transform: uppercase;
 	}
 	.tui386-banner h1, .tui386-banner h2, .tui386-banner h3 { color: inherit; margin: 0; }
 
@@ -679,7 +678,6 @@
 		display: block;
 		margin: 0 -24px;
 		padding: 0 24px;
-		text-transform: uppercase;
 		color: var(--tui386-gray);
 	}
 	.tui386-menu-divider {
