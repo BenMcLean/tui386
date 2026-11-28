@@ -58,6 +58,8 @@ const bootstrapExtras = [
 	`${scope} .nav-tabs .nav-link { border: 0; margin-bottom: 0; }`,
 	// .table-bordered draws a border on every row
 	`${scope} .table > :not(caption) > * { border: 0; }`,
+	// .table-hover fills the whole cell with an inset shadow, over the gutter rows too
+	`${scope} .table > :not(caption) > * > * { box-shadow: none; }`,
 ].join('\n')
 fs.writeFileSync('dist/bootstrap.css', [overlayTokens, alias(components, aliases.bootstrap, { unlayered: true, scope, reset: { classes: aliases.resets.bootstrap, value: 'revert' } }), bootstrapExtras, scrollbarButtons].join('\n'))
 

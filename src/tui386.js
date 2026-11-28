@@ -20,6 +20,10 @@ const BLOCK = '▄' // ▄
  * the bottom right, then a cursor flies across the revealed page (twice,
  * unless onePass).
  *
+ * Off grid: the curtain and cursor are placed from the bottom right of the
+ * window, so in a window which isn't a whole number of cells they fall between
+ * them.
+ *
  * options:
  *   fastLoad    skip everything                            (default false)
  *   onePass     skip the second, cursor-only fly-by        (default false)
@@ -108,6 +112,8 @@ export function boot({ fastLoad = false, onePass = false, speedFactor = 1 } = {}
 
 /**
  * Replace the mouse pointer with a character cell that snaps to the 8x14 grid.
+ * Off grid: the page's rows are 16px, so the cursor's 14px steps only line up
+ * with them every 112px.
  * Returns a function that puts the real pointer back.
  */
 export function magicCursor() {

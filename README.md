@@ -127,6 +127,8 @@ The themes only differ in a few tokens, so everything else is the same EGA color
 | `--tui386-inset` (code, pre, wells, table stripes) | black | blue |
 | `--tui386-shadow-color` | black | gray (black would vanish) |
 | `--tui386-btn-hover-bg` (hovered or focused button) | gray | blue (gray would match the shadow) |
+| `--tui386-scrollbar-thumb` | black | white (black would merge with the screen) |
+| `--tui386-scrollbar-track` (Firefox only; elsewhere the track is dithered) | silver | gray |
 | `--tui386-fg` | silver | silver |
 
 Override any of them to make your own screen. daisyUI gets two themes, `tui386` and `tui386-dark`. Bootstrap picks one per build by importing `bootstrap` or `bootstrap-dark`, and its overlay follows `data-theme="tui386"` or `"tui386-dark"`. Tailwind and UnoCSS need nothing extra: the components follow the tokens.

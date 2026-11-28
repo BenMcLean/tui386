@@ -5,12 +5,22 @@
  * The screen is a grid of 8px x 16px character cells (IBM EGA 8x14 font drawn
  * at 16px). One column is 8px, one row is 16px.
  */
+/* Off grid: a character missing from the font is drawn by a fallback font at that
+	 font's width, curly quotes, the multiplication sign and emoji among them */
 @font-face {
 	font-family: "DOS";
 	src: url("../fonts/Px437_IBM_EGA8.otf") format("opentype");
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
+	/* The glyphs are 14px tall at 16px. Counting a pixel more above and below makes
+		 backgrounds behind text (links, code) cover the whole 16px cell. The baseline
+		 doesn't move.
+		 Off grid: browsers which ignore these (Safari, as of 2026) leave those
+		 backgrounds 14px tall. */
+	ascent-override: 75%;
+	descent-override: 25%;
+	line-gap-override: 0%;
 }
 
 :root {
@@ -45,6 +55,8 @@
 	--tui386-inset: var(--tui386-black);        /* code, pre, wells, table stripes */
 	--tui386-shadow-color: var(--tui386-black);
 	--tui386-btn-hover-bg: var(--tui386-gray); /* a hovered or focused button's face */
+	--tui386-scrollbar-thumb: var(--tui386-black);
+	--tui386-scrollbar-track: var(--tui386-silver); /* Firefox, which can't be dithered */
 
 	/* The only shadow: hard, one column over and one half-row down */
 	--tui386-shadow: 8px 8px 0 0 var(--tui386-shadow-color);
@@ -58,7 +70,8 @@
  * OS setting unless the page says data-theme="light"; data-theme="dark" forces it.
  * (tui386 and tui386-dark are the same two screens under daisyUI's theme names.)
  * A black shadow would vanish on black, so it turns gray, and hovered buttons turn
- * blue so that their faces don't merge with it.
+ * blue so that their faces don't merge with it. A black scroll bar thumb would
+ * merge with the screen beside it, so it turns white.
  */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"], [data-theme="tui386"]) {
@@ -66,6 +79,8 @@
 		--tui386-inset: var(--tui386-blue);
 		--tui386-shadow-color: var(--tui386-gray);
 		--tui386-btn-hover-bg: var(--tui386-blue);
+		--tui386-scrollbar-thumb: var(--tui386-white);
+		--tui386-scrollbar-track: var(--tui386-gray);
 	}
 }
 :root:is([data-theme="dark"], [data-theme="tui386-dark"]) {
@@ -73,4 +88,6 @@
 	--tui386-inset: var(--tui386-blue);
 	--tui386-shadow-color: var(--tui386-gray);
 	--tui386-btn-hover-bg: var(--tui386-blue);
+	--tui386-scrollbar-thumb: var(--tui386-white);
+	--tui386-scrollbar-track: var(--tui386-gray);
 }

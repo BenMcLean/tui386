@@ -19,6 +19,9 @@
 //
 // Sass needs real color values (it mixes and tints them), so these repeat the
 // numbers from tokens.css.
+//
+// Off grid: parts of Bootstrap which TUI386 doesn't restyle keep Bootstrap's sizes.
+// The notes about the grid in tokens.css and components.css apply to the overlay too.
 
 $tui386-font-path: "../fonts" !default;
 $tui386-theme: light !default; // light | dark
@@ -29,6 +32,10 @@ $tui386-theme: light !default; // light | dark
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
+	// a 16px content area: see tokens.css
+	ascent-override: 75%;
+	descent-override: 25%;
+	line-gap-override: 0%;
 }
 
 // The sixteen EGA colors

@@ -18,6 +18,9 @@
  * or follows the OS setting, because that would take the choice away from the site.
  *
  * daisyUI wants real color values, so these repeat the numbers from tokens.css.
+ *
+ * Off grid: parts of daisyUI which TUI386 doesn't restyle keep daisyUI's sizes.
+ * The notes about the grid in tokens.css and components.css apply here too.
  */
 @font-face {
 	font-family: "DOS";
@@ -25,6 +28,10 @@
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
+	/* a 16px content area: see tokens.css */
+	ascent-override: 75%;
+	descent-override: 25%;
+	line-gap-override: 0%;
 }
 
 @plugin "daisyui/theme" {

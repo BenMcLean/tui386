@@ -1,6 +1,18 @@
 /*
  * TUI386.css - components. Plain CSS: no framework required.
  * Everything is driven by the --tui386-* variables in tokens.css.
+ *
+ * THE GRID: everything is meant to sit on cells 8px wide and 16px tall. Whatever can
+ * leave it is marked "Off grid:", here or beside the code, so search for that. Drawing
+ * within a cell doesn't count: half-row shadows (the half blocks of code page 437) and
+ * thin lines standing in for box-drawing characters.
+ *
+ * Off grid: a page's own layout can do it, with fractional widths or heights, auto
+ *   margins or centered text, as can framework classes which do the same.
+ * Off grid: the browser scrolls the page, and boxes which scroll, by the pixel.
+ * Off grid: a browser without CSS round() ignores the rules which use it, for the
+ *   screen width, the dialog and the progress bar.
+ * Only Chromium has been checked against the grid.
  */
 /* ------------------------------------------------------------------ *
  * Base: the screen, the text and the stuff browsers draw by default
@@ -25,7 +37,7 @@
 		 so only Firefox (no ::-webkit-scrollbar) gets the standard properties. */
 	@supports not selector(::-webkit-scrollbar) {
 		html {
-			scrollbar-color: var(--tui386-black) var(--tui386-silver);
+			scrollbar-color: var(--tui386-scrollbar-thumb) var(--tui386-scrollbar-track);
 			scrollbar-width: auto;
 		}
 	}
@@ -35,6 +47,8 @@
 		color: var(--tui386-fg);
 		min-height: 100vh;
 		margin: 0;
+		/* the screen is a whole number of columns */
+		width: round(down, 100%, 8px);
 	}
 
 	/* Text-mode has no concept of anything but one font at one size. */
@@ -50,6 +64,8 @@
 	*, ::before, ::after {
 		box-sizing: border-box;
 	}
+	/* Off grid: buttons, form controls, tables, progress and meter elements without a
+		 tui386- class keep the sizes the browser or a framework gives them */
 	button, input, select, optgroup, textarea {
 		font: inherit;
 	}
@@ -95,16 +111,22 @@
 	small {
 		font-size: inherit;
 	}
+	/* Off grid: sub and sup are left alone, and make their row taller */
 	abbr[title] {
 		text-decoration: none;
-		border-bottom: 2px dotted currentColor;
+		/* dots along the bottom of the cell; a border would hang below it */
+		background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 4px) bottom / 100% 2px no-repeat;
 	}
 
+	/* A rule is a whole row with a double line through its middle. (A border with
+		 margins around it would let those merge with a neighbor's and leave the rows.) */
 	hr {
 		border: 0;
-		border-top: 4px double var(--tui386-silver);
-		height: 0;
-		margin: 6px 0;
+		height: 16px;
+		margin: 0;
+		background:
+			linear-gradient(var(--tui386-silver), var(--tui386-silver)) left 0 top 6px / 100% 1px no-repeat,
+			linear-gradient(var(--tui386-silver), var(--tui386-silver)) left 0 top 9px / 100% 1px no-repeat;
 		color: inherit;
 		opacity: 1;
 	}
@@ -119,17 +141,14 @@
 		font-family: var(--tui386-font);
 		font-size: 16px;
 	}
-	/* An inline background covers only the font's 14px. A pixel above and below fills
-		 the 16px cell, without moving anything. */
 	code, samp {
 		background: var(--tui386-inset);
 		color: var(--tui386-bright-green);
-		padding: 1px 0;
 	}
 	kbd {
 		background: var(--tui386-silver);
 		color: var(--tui386-black);
-		padding: 1px 8px;
+		padding: 0 8px;
 		box-shadow: var(--tui386-shadow);
 		margin-right: 8px;
 	}
@@ -145,7 +164,7 @@
 	}
 
 	mark {
-		padding: 1px 0;
+		padding: 0;
 		background: var(--tui386-yellow);
 		color: var(--tui386-black);
 	}
@@ -157,9 +176,10 @@
 
 	:focus-visible {
 		outline: 2px dashed var(--tui386-yellow);
-		outline-offset: 0;
+		outline-offset: -2px; /* inside the element's own cells */
 	}
 
+	/* Off grid: pictures, video, canvases and iframes keep their own sizes */
 	img, svg, video, canvas {
 		image-rendering: pixelated;
 	}
@@ -181,16 +201,17 @@
 		min-width: 0;
 	}
 
-	/* --- scrollbars: one column wide, dithered track, black thumb --- */
+	/* --- scrollbars: one column wide, dithered track, a solid thumb as in
+		 QuickBASIC --- */
+	/* Off grid: the browser sizes the thumb by how much is visible and moves it by the
+		 pixel. Firefox draws its own scroll bar, at its own width. */
 	::-webkit-scrollbar {
 		width: 8px;
 		height: 16px;
 		background: var(--tui386-black);
 	}
 	::-webkit-scrollbar-thumb {
-		background: var(--tui386-black);
-		border-left: 2px solid var(--tui386-silver);
-		border-right: 2px solid var(--tui386-silver);
+		background: var(--tui386-scrollbar-thumb);
 	}
 	::-webkit-scrollbar-track {
 		background: var(--tui386-dither);
@@ -255,7 +276,8 @@
 		color: var(--btn-fg);
 		border: 0;
 		font: inherit;
-		text-align: center;
+		/* in a button wider than its text, centering could land between columns */
+		text-align: left;
 		vertical-align: top;
 		cursor: default;
 		user-select: none;
@@ -282,6 +304,8 @@
 		color: var(--tui386-white);
 		outline: 0;
 	}
+	/* Off grid: a pressed button's face, text and all, moves half a row down. This is
+		 intended. */
 	.tui386-btn:active,
 	.tui386-btn.active {
 		--dx: 8px;
@@ -358,6 +382,7 @@
 		background-repeat: no-repeat;
 		background-position: right 8px center;
 	}
+	/* Off grid: where base-select isn't supported, the open list is the system's own */
 	@supports (appearance: base-select) {
 		.tui386-select,
 		.tui386-select::picker(select) {
@@ -445,6 +470,8 @@
 	.tui386-radio:disabled { color: var(--tui386-gray); opacity: 1; }
 
 	/* A bare range is a row of dither with a block thumb */
+	/* Off grid: the browser places the thumb by the pixel. Snapping it would take a
+		 script. */
 	.tui386-range {
 		appearance: none;
 		display: block;
@@ -520,6 +547,8 @@
 		border: 4px double var(--window-line);
 		pointer-events: none;
 	}
+	/* the bottom line follows the content, without the last block's blank row */
+	.tui386-window > :last-child { margin-bottom: 0; }
 	.tui386-window-title {
 		/* the window's top row, so the double line runs through the glyphs */
 		position: absolute;
@@ -610,6 +639,14 @@
 	.tui386-navbar a.tui386-navbar-brand { background: var(--tui386-black); color: var(--tui386-white); }
 	.tui386-navbar a.tui386-navbar-brand::first-letter { color: inherit; }
 	.tui386-navbar a.tui386-navbar-brand:hover { background: var(--tui386-white); color: var(--tui386-black); }
+
+	/* The screen is a whole number of columns (see body), which can leave a few pixels
+		 at the window's right edge. A bar placed directly in the page, or in its header,
+		 paints on across them. The shadow takes no room and the window cuts it off.
+		 Other full-width blocks placed there stop up to 7px short of the edge. */
+	:where(body, body > header) > :is(.tui386-navbar, .tui386-menubar) {
+		box-shadow: 8px 0 0 var(--tui386-silver);
+	}
 
 	/* ---------- Tabs & pills ---------- */
 	.tui386-tabs {
@@ -774,6 +811,9 @@
 		border-width: 1px 2px;
 		pointer-events: none;
 	}
+	/* as in a window, the bottom line follows the content */
+	.tui386-alert > :last-child,
+	.tui386-well > :last-child { margin-bottom: 0; }
 	/* well: black field, gray line */
 	.tui386-well {
 		--alert-bg: var(--tui386-inset);
@@ -823,9 +863,13 @@
 			 ┌─┬─┐
 			 ├─┼─┤   (the edges end in T shapes and corners, never crosses)
 			 └─┴─┘                                                              */
+	/* Off grid: a table too wide for its container wraps its text and shares out the
+		 width among the columns in fractions */
 	.tui386-table {
 		--line: var(--tui386-silver);
-		width: 100%;
+		/* As wide as its content, so every column is a whole number of cells. Stretching
+			 it would share the extra space out in fractions. */
+		width: auto;
 		border-collapse: collapse;
 		margin-bottom: 16px;
 	}
@@ -916,8 +960,10 @@
 		height: 100%;
 		background: var(--tui386-white);
 		color: var(--tui386-black);
-		text-align: center;
+		text-align: left;
 		white-space: nowrap;
+		/* whatever width it is given, only whole columns of it show */
+		clip-path: inset(0 calc(100% - round(down, 100%, 8px)) 0 0);
 		transition: width 0.4s steps(10, end);
 	}
 	.tui386-progress-bar-success { background: var(--tui386-bright-green); }
@@ -979,7 +1025,7 @@
 		/* it is usually a <form>, which the base styles give a bottom margin: not here */
 		margin: 16px 0 0;
 		padding: 0 8px;
-		text-align: center;
+		text-align: left;
 	}
 
 	/* ---------- Dither fill + the close box ---------- */
@@ -1060,7 +1106,8 @@
 	color: var(--tui386-white);
 }
 
-/* The mouse pointer becomes a character cell that snaps to the grid */
+/* The mouse pointer becomes a character cell that snaps to the grid.
+	 Off grid: it is 14px tall, like the font's glyphs (see magicCursor in tui386.js) */
 .tui386-cursor {
 	position: absolute;
 	z-index: 2147483001;

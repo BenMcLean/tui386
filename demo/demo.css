@@ -4,3 +4,16 @@
 @media (max-width: 899px) {
 	.demo-section { display: none !important; }
 }
+/* The layout stays on the character grid: the page is centered to the nearest column,
+	 and side-by-side blocks are whole columns wide. */
+main {
+	margin-left: round(down, max(0px, (100% - 1152px) / 2), 8px);
+}
+@media (min-width: 768px) {
+	.md\:grid-cols-2 { grid-template-columns: repeat(2, round(down, (100% - 32px) / 2, 8px)); }
+	.md\:grid-cols-3 { grid-template-columns: repeat(3, round(down, (100% - 64px) / 3, 8px)); }
+	.md\:grid-cols-8 { grid-template-columns: repeat(8, round(down, (100% - 56px) / 8, 8px)); }
+}
+@media (max-width: 767px) {
+	.grid-cols-4 { grid-template-columns: repeat(4, round(down, (100% - 24px) / 4, 8px)); }
+}

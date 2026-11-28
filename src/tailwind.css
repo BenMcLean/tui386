@@ -83,6 +83,8 @@
 	--breakpoint-2xl: 1344px;
 }
 
+/* Off grid: half units (p-0.5 is 4px) and arbitrary values such as w-[3px] do as they
+	 say, and rule-double adds 4px of height */
 @utility row-h { height: 16px; }
 @utility col-w { width: 8px; }
 @utility reverse { background: var(--tui386-silver); color: var(--tui386-black); }

@@ -59,6 +59,8 @@ export default function presetTUI386() {
 			'reverse': 'bg-silver text-black',
 			'shadow-drop': 'shadow-dos',
 		},
+		// Off grid: half units (p-0.5 is 4px) and arbitrary values such as w-[3px] do as
+		// they say, and rule-double adds 4px of height
 		rules: [
 			['dither', { background: 'var(--tui386-dither)' }],
 			['rule-double', { 'border-top': '4px double currentColor' }],
