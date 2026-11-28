@@ -119,14 +119,17 @@
 		font-family: var(--tui386-font);
 		font-size: 16px;
 	}
+	/* An inline background covers only the font's 14px. A pixel above and below fills
+		 the 16px cell, without moving anything. */
 	code, samp {
 		background: var(--tui386-inset);
 		color: var(--tui386-bright-green);
+		padding: 1px 0;
 	}
 	kbd {
 		background: var(--tui386-silver);
 		color: var(--tui386-black);
-		padding: 0 8px;
+		padding: 1px 8px;
 		box-shadow: var(--tui386-shadow);
 		margin-right: 8px;
 	}
@@ -142,7 +145,7 @@
 	}
 
 	mark {
-		padding: 0;
+		padding: 1px 0;
 		background: var(--tui386-yellow);
 		color: var(--tui386-black);
 	}
@@ -496,34 +499,36 @@
 		 the border, with the window's own background cutting a gap in the line. */
 	.tui386-window {
 		--window-bg: var(--tui386-bg);
+		--window-line: var(--tui386-white);
 		position: relative;
 		display: flow-root;
-		/* Every row of text is on the 16px grid, so the top and bottom lines each get
-			 a whole row too, with the line where the glyphs' middle is (3px above the
-			 middle of the cell). The box is drawn 3px low to put them there; padding and
-			 margin make up the difference, so the text and what follows stay on the grid. */
-		margin: 0 0 28px;
-		/* sides: the 4px line, then 8px of air (a column) before the text */
-		padding: 9px 8px 3px;
-		translate: 0 3px;
+		/* The box is exactly the window's cells, so its background covers them whole:
+			 a row each for the top and bottom lines, and a column of line then a column
+			 of air at each side. */
+		margin: 0 0 16px;
+		padding: 16px;
 		background: var(--window-bg);
 		color: var(--tui386-fg);
-		border: 4px double var(--tui386-white);
-		/* a ring of background color keeps neighbours a line away */
-		box-shadow: 0 0 0 4px var(--window-bg);
+		border: 0;
+	}
+	/* The double line is drawn inside the outer cells, as the box-drawing characters
+		 would be */
+	.tui386-window::before {
+		content: "";
+		position: absolute;
+		inset: 5px 2px 7px;
+		border: 4px double var(--window-line);
+		pointer-events: none;
 	}
 	.tui386-window-title {
-		/* This is the window's top row, on the grid: the box is drawn 3px low (see
-			 .tui386-window), so -7px from the padding edge is exactly the row top, and
-			 the double line runs through the middle of the glyphs. */
+		/* the window's top row, so the double line runs through the glyphs */
 		position: absolute;
-		top: -7px;
-		/* one column right of the content: the box starts 8px in from the line's inside
-			 edge and its 8px of padding puts the title text 8px past the content text */
-		left: 8px;
+		top: 0;
+		/* its padding puts the title text one column right of the content text */
+		left: 16px;
 		box-sizing: border-box;
 		width: max-content;
-		max-width: calc(100% - 16px);
+		max-width: calc(100% - 32px);
 		margin: 0;
 		/* these are usually h1-h3; don't depend on a reset to flatten the browser's heading size */
 		font-size: inherit;
@@ -541,8 +546,8 @@
 	}
 	.tui386-window-gray {
 		--window-bg: var(--tui386-silver);
+		--window-line: var(--tui386-black);
 		color: var(--tui386-black);
-		border-color: var(--tui386-black);
 	}
 	.tui386-window-gray .tui386-window-title,
 	.tui386-window-gray h1, .tui386-window-gray h2, .tui386-window-gray h3 { color: var(--tui386-black); }
@@ -641,27 +646,30 @@
 	.tui386-pill.active { background: var(--tui386-yellow); color: var(--tui386-bg); }
 
 	/* ---------- Menus & dropdowns ---------- */
-	/* Menus are windows in silver: the very same 4px double line, a one-row ring
-		 of background around it, and a cell-aligned black shadow. (Modals, below, are
-		 the other kind of window: a solid title bar, no line.) */
+	/* Menus are windows in silver: the very same double line, drawn the same way
+		 (see .tui386-window), and a cell-aligned black shadow two columns over and a
+		 row down. The top and bottom lines each have a whole row to themselves, with
+		 the first and last items directly against them. (Modals, below, are the other
+		 kind of window: a solid title bar, no line.) */
 	.tui386-menu {
 		--window-bg: var(--tui386-silver);
-		background: var(--window-bg);
-		color: var(--tui386-black);
-		border: 4px double var(--tui386-black);
-		padding: 12px 28px;
-		box-shadow: 0 0 0 4px var(--tui386-silver), 16px 16px 0 4px var(--tui386-shadow-color);
-	}
-	/* Rows and lines work exactly as in a window (see .tui386-window): the box is
-		 drawn 3px low so the top and bottom lines each have a whole row to themselves,
-		 with the first and last items directly against them. */
-	.tui386-menu {
+		position: relative;
 		display: block;
 		min-width: 160px;
-		margin: 0 24px 44px 0;
-		padding: 9px 28px 3px;
-		translate: 0 3px;
+		margin: 0 24px 32px 0;
+		padding: 16px 32px;
+		background: var(--window-bg);
+		color: var(--tui386-black);
+		border: 0;
+		box-shadow: 16px 16px 0 0 var(--tui386-shadow-color);
 		list-style: none;
+	}
+	.tui386-menu::before {
+		content: "";
+		position: absolute;
+		inset: 5px 2px 7px;
+		border: 4px double var(--tui386-black);
+		pointer-events: none;
 	}
 	.tui386-menu > li > a,
 	.tui386-menu-item {
@@ -692,7 +700,7 @@
 	}
 	.tui386-menu-divider {
 		/* a full row with the line through its middle: ├────┤, which does reach the border */
-		margin: 0 -28px;
+		margin: 0 -26px;
 		border: 0;
 		height: 16px;
 		background: linear-gradient(var(--tui386-black), var(--tui386-black)) left 0 top 7px / 100% 1px no-repeat;
@@ -919,10 +927,14 @@
 
 	/* ---------- Modals: use a native <dialog class="modal"> ---------- */
 	.tui386-modal {
+		--modal-width: min(560px, round(down, calc(100% - 48px), 8px));
+		/* Centered, but only to the nearest cell: margin: auto could put it between
+			 them. The translate below does the same for the height, which isn't known here. */
 		position: fixed;
-		inset: 0;
-		margin: auto;
-		width: min(560px, calc(100vw - 48px));
+		inset: round(down, 50%, 16px) auto auto round(down, calc(50% - var(--modal-width) / 2), 8px);
+		translate: 0 round(down, -50%, 16px);
+		margin: 0;
+		width: var(--modal-width);
 		height: fit-content;
 		max-height: calc(100vh - 48px);
 		overflow: visible;
@@ -945,19 +957,20 @@
 	.tui386-modal .tui386-btn { --btn-fg: var(--tui386-white); }
 	.tui386-modal .tui386-btn-primary:not(:hover, :focus-visible) { --btn-bg: var(--tui386-bright-green); }
 	.tui386-modal .tui386-btn-primary { --btn-fg: var(--tui386-black); }
-	/* the title bar: a solid, full-width row with the title centered in it */
+	/* The title bar: a solid, full-width row. The title is at the left because a
+		 centered one lands between columns whenever the spare columns are odd. */
 	.tui386-modal-header {
 		padding: 0 8px;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		text-align: center;
+		text-align: left;
 		background: var(--tui386-white);
 		color: var(--tui386-black);
 	}
 	.tui386-modal-body:focus-visible { outline: 0; }
 	.tui386-modal-body {
-		max-height: calc(100vh - 160px);
+		max-height: round(down, calc(100vh - 160px), 16px);
 		padding: 16px 8px 0;
 		overflow-y: auto;
 	}
@@ -971,11 +984,13 @@
 
 	/* ---------- Dither fill + the close box ---------- */
 	.tui386-shade { background: var(--tui386-dither); }
-	.tui386-close::before { content: "[\00D7]"; }
+	/* a square in brackets, as in Turbo Vision */
+	.tui386-close::before { content: "[\25A0]"; }
 	.tui386-close {
 		float: right;
 		background: none;
 		border: 0;
+		padding: 0; /* three cells, without the browser's button padding */
 		color: inherit;
 		font: inherit;
 		cursor: default;

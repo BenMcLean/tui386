@@ -211,12 +211,12 @@
 </main>
 
 <dialog id="dlg" class="tui386-modal">
-	<div class="tui386-modal-header">System</div>
+	<div class="tui386-modal-header"><button class="tui386-close" form="dlg-buttons" value="cancel" aria-label="Close"></button>System</div>
 	<div class="tui386-modal-body">
 	<p>This is a native &lt;dialog&gt;. It does not need any JavaScript framework.</p>
 	</div>
-	<form method="dialog" class="tui386-modal-footer">
-		<button class="tui386-btn tui386-btn-primary">OK</button>
+	<form id="dlg-buttons" method="dialog" class="tui386-modal-footer">
+		<button class="tui386-btn tui386-btn-primary" autofocus>OK</button>
 		<button class="tui386-btn" value="cancel">Cancel</button>
 	</form>
 </dialog>
